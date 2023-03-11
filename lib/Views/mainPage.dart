@@ -7,12 +7,20 @@ import 'package:inventarioapp/Common/itemMiniMenu.dart';
 import 'package:inventarioapp/Views/Entradas/buscarEntrada.dart';
 import 'package:inventarioapp/Views/Entradas/listarEntrada.dart';
 import 'package:inventarioapp/Views/Entradas/registrarEntrada.dart';
+import 'package:inventarioapp/Views/Pedidos/buscarPedido.dart';
+import 'package:inventarioapp/Views/Pedidos/listarPedido.dart';
+import 'package:inventarioapp/Views/Pedidos/registrarPedido.dart';
 import 'package:inventarioapp/Views/Productos/cargarProducto.dart';
 import 'package:inventarioapp/Views/Productos/detalleProducto.dart';
 import 'package:inventarioapp/Views/Salidas/buscarSalida.dart';
 import 'package:inventarioapp/Views/Salidas/listarSalida.dart';
+import 'package:inventarioapp/Views/configuracionPage.dart';
 import 'package:inventarioapp/Views/homePage.dart';
 import 'package:inventarioapp/Views/Salidas/registrarSalida.dart';
+import 'package:inventarioapp/Views/inventarioPage.dart';
+import 'package:inventarioapp/Views/proveedoresPage.dart';
+import 'package:inventarioapp/Views/tecnicosPage.dart';
+import 'package:inventarioapp/Common/GraficoBase.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -37,6 +45,7 @@ class _MainPageState extends State<MainPage> {
       body: Row(
         children: [
           Container(
+            height: double.infinity,
             padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
             width: active ? 80 : 260,
             color: const Color(0xff111827),
@@ -55,48 +64,37 @@ class _MainPageState extends State<MainPage> {
                       blurRadius: 10.0,
                     ),
                   ]),
-                  child: Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Bienvenido denuevo, Sebastian!",
-                            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          Row(
-                            children: const [
-                              Icon(
-                                Icons.notifications,
-                                color: Colors.grey,
-                              ),
-                              Text(
-                                "Tienes 2 nuevos mensajes",
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                            ],
-                          )
-                        ],
-                      )
-                    ],
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Bienvenido denuevo, Sebastian!",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                            Row(
+                              children: const [
+                                Icon(
+                                  Icons.notifications,
+                                  color: Colors.grey,
+                                ),
+                                Text(
+                                  "Tienes 2 nuevos mensajes",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 space(h: 30),
-                Expanded(
-                    child: PageView(
-                  controller: controller,
-                  children: const [
-                    HomePage(),
-                    RegistrarSalidaPage(),
-                    BuscarSalidaPage(),
-                    ListarSalidaPage(),
-                    RegistrarEntradaPage(),
-                    BuscarEntradaPage(),
-                    ListarEntradaPage(),
-                    DetalleProducto(),
-                    CargarProductoPage()
-                  ],
-                ))
+                Expanded(child: pageViewList())
               ],
             ),
           )
@@ -105,100 +103,158 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  MenuAbierto() {
-    return Column(
+  PageView pageViewList() {
+    return PageView(
+      controller: controller,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.logout,
-                  color: Colors.white,
-                  size: 30,
-                )),
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    active = true;
-                  });
-                },
-                icon: const Icon(
-                  Icons.menu,
-                  color: Colors.white,
-                  size: 30,
-                )),
-          ],
-        ),
-        space(h: 30),
-        BotonMenu(
-          fun: () {
-            controller.jumpToPage(0);
-          },
-          texto: "Home",
-          icon: Icons.home,
-        ),
-        space(h: 10),
-        /**
-         * Salidas
-         */
-        BotonMenu(
-          fun: () {
-            menuSalidas();
-          },
-          texto: "Salidas",
-          icon: Icons.unarchive,
-        ),
-        space(h: 10),
-        /**
-         * Entradas
-         */
-        BotonMenu(
-          fun: () {
-            menuEntradas();
-          },
-          texto: "Entradas",
-          icon: Icons.archive,
-        ),
-        space(h: 10),
-        /**
-         * Productos
-         */
-        BotonMenu(
-          fun: () {
-            menuProductos();
-          },
-          texto: "Productos",
-          icon: Icons.widgets,
-        ),
-        space(h: 10),
-        BotonMenu(
-          fun: () {
-            menuPedidos();
-          },
-          texto: "Pedidos",
-          icon: Icons.import_contacts,
-        ),
-        space(h: 10),
-        BotonMenu(
-          fun: () {},
-          texto: "Proveedores",
-          icon: Icons.label_off_outlined,
-        ),
-        space(h: 10),
-        BotonMenu(
-          fun: () {},
-          texto: "Configuracion",
-          icon: Icons.javascript_outlined,
-        ),
+        HomePage(),
+        RegistrarSalidaPage(),
+        BuscarSalidaPage(),
+        ListarSalidaPage(),
+        RegistrarEntradaPage(),
+        BuscarEntradaPage(),
+        ListarEntradaPage(),
+        DetalleProducto(),
+        CargarProductoPage(),
+        RegistrarPedidoPage(),
+        BuscarPedidoPage(),
+        ListarPedidoPage(),
+        TecnicosPage(),
+        ProveedoresPage(),
+        InventarioPage(),
+        ConfiguracionPage()
       ],
     );
   }
 
-  Future<dynamic> menuPedidos() {
+  MenuAbierto() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                    size: 30,
+                  )),
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      active = true;
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.menu,
+                    color: Colors.white,
+                    size: 30,
+                  )),
+            ],
+          ),
+          space(h: 30),
+          BotonMenu(
+            fun: () {
+              controller.jumpToPage(0);
+            },
+            texto: "Home",
+            icon: Icons.home,
+          ),
+          space(h: 10),
+          /**
+           * Salidas
+           */
+          BotonMenu(
+            fun: () {
+              menuSalidas();
+            },
+            texto: "Salidas",
+            icon: Icons.unarchive,
+          ),
+          space(h: 10),
+          /**
+           * Entradas
+           */
+          BotonMenu(
+            fun: () {
+              menuEntradas();
+            },
+            texto: "Entradas",
+            icon: Icons.archive,
+          ),
+          space(h: 10),
+          /**
+           * Productos
+           */
+          BotonMenu(
+            fun: () {
+              menuProductos();
+            },
+            texto: "Productos",
+            icon: Icons.widgets,
+          ),
+          space(h: 10),
+          /**
+           * Pedidos
+           */
+          BotonMenu(
+            fun: () {
+              menuPedidos();
+            },
+            texto: "Pedidos",
+            icon: Icons.import_contacts,
+          ),
+          space(h: 10),
+          /**
+           * Tecnicos
+           */
+          BotonMenu(
+            fun: () {
+              controller.jumpToPage(12);
+            },
+            texto: "Tecnicos",
+            icon: Icons.groups,
+          ),
+          space(h: 10),
+          /**
+           * Proveedores
+           */
+          BotonMenu(
+            fun: () {
+              controller.jumpToPage(13);
+            },
+            texto: "Proveedores",
+            icon: Icons.local_shipping,
+          ),
+          space(h: 10),
+          /**
+           * Inventario
+           */
+          BotonMenu(
+            fun: () {
+              controller.jumpToPage(14);
+            },
+            texto: "Inventario",
+            icon: Icons.inventory_2,
+          ),
+          space(h: 10),
+          BotonMenu(
+            fun: () {
+              controller.jumpToPage(15);
+            },
+            texto: "Configuracion",
+            icon: Icons.settings,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<dynamic> menuProductos() {
     return showDialog(
       context: context,
       builder: (context) {
@@ -229,7 +285,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Future<dynamic> menuProductos() {
+  Future<dynamic> menuPedidos() {
     return showDialog(
       context: context,
       builder: (context) {
@@ -238,20 +294,29 @@ class _MainPageState extends State<MainPage> {
           children: [
             MiniMenuBase(
               color: Colors.black,
-              icon: Icons.search,
-              texto: "Detalle",
+              icon: Icons.add,
+              texto: "Agregar",
               fun: () {
                 Navigator.pop(context);
-                controller.jumpToPage(7);
+                controller.jumpToPage(9);
+              },
+            ),
+            MiniMenuBase(
+              color: Colors.black,
+              icon: Icons.search,
+              texto: "Buscar",
+              fun: () {
+                Navigator.pop(context);
+                controller.jumpToPage(10);
               },
             ),
             MiniMenuBase(
               color: Colors.black,
               icon: Icons.list,
-              texto: "Cargar",
+              texto: "Listar",
               fun: () {
                 Navigator.pop(context);
-                controller.jumpToPage(8);
+                controller.jumpToPage(11);
               },
             ),
           ],
@@ -340,56 +405,86 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Column MenuCerrado() {
-    return Column(
-      children: [
-        IconButton(
-            onPressed: () {
-              setState(() {
-                active = false;
-              });
+  MenuCerrado() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  active = false;
+                });
+              },
+              icon: const Icon(
+                Icons.menu,
+                color: Colors.white,
+                size: 30,
+              )),
+          space(h: 30),
+          MiniBotonMenu(
+            fun: () {
+              controller.jumpToPage(0);
             },
-            icon: const Icon(
-              Icons.menu,
-              color: Colors.white,
-              size: 30,
-            )),
-        space(h: 30),
-        MiniBotonMenu(
-          fun: () {},
-          icon: Icons.home_outlined,
-        ),
-        space(h: 10),
-        MiniBotonMenu(
-          fun: () {},
-          icon: Icons.lock_outline,
-        ),
-        space(h: 10),
-        MiniBotonMenu(
-          fun: () {},
-          icon: Icons.offline_bolt_outlined,
-        ),
-        space(h: 10),
-        MiniBotonMenu(
-          fun: () {},
-          icon: Icons.fiber_dvr_outlined,
-        ),
-        space(h: 10),
-        MiniBotonMenu(
-          fun: () {},
-          icon: Icons.padding_outlined,
-        ),
-        space(h: 10),
-        MiniBotonMenu(
-          fun: () {},
-          icon: Icons.label_off_outlined,
-        ),
-        space(h: 10),
-        MiniBotonMenu(
-          fun: () {},
-          icon: Icons.javascript_outlined,
-        ),
-      ],
+            icon: Icons.home,
+          ),
+          space(h: 10),
+          MiniBotonMenu(
+            fun: () {
+              menuSalidas();
+            },
+            icon: Icons.unarchive,
+          ),
+          space(h: 10),
+          MiniBotonMenu(
+            fun: () {
+              menuEntradas();
+            },
+            icon: Icons.archive,
+          ),
+          space(h: 10),
+          MiniBotonMenu(
+            fun: () {
+              menuProductos();
+            },
+            icon: Icons.widgets,
+          ),
+          space(h: 10),
+          MiniBotonMenu(
+            fun: () {
+              menuPedidos();
+            },
+            icon: Icons.import_contacts,
+          ),
+          space(h: 10),
+          MiniBotonMenu(
+            fun: () {
+              controller.jumpToPage(12);
+            },
+            icon: Icons.groups,
+          ),
+          space(h: 10),
+          MiniBotonMenu(
+            fun: () {
+              controller.jumpToPage(13);
+            },
+            icon: Icons.local_shipping,
+          ),
+          space(h: 10),
+          MiniBotonMenu(
+            fun: () {
+              controller.jumpToPage(14);
+            },
+            icon: Icons.inventory_2,
+          ),
+          space(h: 10),
+          MiniBotonMenu(
+            fun: () {
+              controller.jumpToPage(15);
+            },
+            icon: Icons.settings,
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
 import 'package:inventarioapp/Views/mainPage.dart';
@@ -114,7 +113,13 @@ class _LoginPageState extends State<LoginPage> {
               ),
               space(h: 10),
               const Text(
-                "Fuse helps developers to build organized and well coded dashboards full of beautiful and rich modules. Join us and start building your application today.",
+                "Si deseas apoyarme con un follow en github estare agradecido :3 ",
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+              const Text(
+                "https://github.com/cobyzero",
                 style: TextStyle(
                   color: Colors.grey,
                 ),

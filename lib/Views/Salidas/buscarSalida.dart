@@ -30,6 +30,7 @@ class _BuscarSalidaPageState extends State<BuscarSalidaPage> {
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [

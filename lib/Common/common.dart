@@ -16,5 +16,6 @@ lineaContainer({double w: double.infinity, double h = 2}) {
     width: w,
     height: h,
     color: Colors.grey[300],
+    margin: EdgeInsets.only(top: 10, bottom: 10),
   );
 }

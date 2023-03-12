@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/GraficoBase2.dart';
 import 'package:inventarioapp/Common/baseVentana.dart';
 import 'package:inventarioapp/Common/cardBase.dart';
+import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/GraficoBase.dart';
+import 'package:inventarioapp/Controllers/mainController.dart';
+import 'package:inventarioapp/Models/usuariosModel.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -16,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF1F5F9),
+      backgroundColor: colorblanco(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,35 +40,62 @@ class _HomePageState extends State<HomePage> {
 
   SingleChildScrollView cardsDatos() {
     return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          CardBase(
-            cantidad: 25,
-            color: Colors.cyan,
-            confirmadas: 7,
-            texto: "Entradas",
-          ),
-          CardBase(
-            cantidad: 21,
-            color: Colors.red,
-            confirmadas: 7,
-            texto: "Salidas",
-          ),
-          CardBase(
-            cantidad: 15,
-            color: Colors.yellow,
-            confirmadas: 7,
-            texto: "Almacen",
-          ),
-          CardBase(
-            cantidad: 7,
-            color: Colors.green,
-            confirmadas: 7,
-            texto: "Tecnicos",
-          ),
-        ],
-      ),
-    );
+        scrollDirection: Axis.horizontal,
+        child: FutureBuilder(
+          future: MainController.getResquestEntradasCount(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Row(
+                children: [
+                  CardBase(
+                    cantidad: snapshot.data![0],
+                    color: Colors.cyan,
+                    texto: "Entradas",
+                  ),
+                  CardBase(
+                    cantidad: snapshot.data![1],
+                    color: Colors.red,
+                    texto: "Salidas",
+                  ),
+                  CardBase(
+                    cantidad: snapshot.data![2],
+                    color: Colors.yellow,
+                    texto: "Almacen",
+                  ),
+                  CardBase(
+                    cantidad: snapshot.data![3],
+                    color: Colors.green,
+                    texto: "Tecnicos",
+                  ),
+                ],
+              );
+            } else {
+              return Row(
+                children: [
+                  CardBase(
+                    cantidad: "0",
+                    color: Colors.cyan,
+                    texto: "Entradas",
+                  ),
+                  CardBase(
+                    cantidad: "0",
+                    color: Colors.red,
+                    texto: "Salidas",
+                  ),
+                  CardBase(
+                    cantidad: "0",
+                    color: Colors.yellow,
+                    texto: "Almacen",
+                  ),
+                  CardBase(
+                    cantidad: "0",
+                    color: Colors.green,
+                    texto: "Tecnicos",
+                  ),
+                ],
+              );
+            }
+          },
+        ));
   }
 }

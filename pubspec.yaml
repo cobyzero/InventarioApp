@@ -28,6 +28,9 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  file_picker: ^5.2.5
+  http:
+  excel:
   animate_do: ^3.0.2
   syncfusion_flutter_datagrid: ^20.4.53
   flutter:

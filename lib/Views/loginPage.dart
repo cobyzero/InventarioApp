@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
+import 'package:inventarioapp/Controllers/loginController.dart';
 import 'package:inventarioapp/Views/mainPage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -77,12 +78,11 @@ class _LoginPageState extends State<LoginPage> {
                         top: 17,
                         bottom: 17,
                       )),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MainPage(),
-                        ));
+                  onPressed: () async {
+                    LoginController user =
+                        LoginController(username: email.text, password: password.text);
+
+                    await user.getLoginRequest(context);
                   },
                   child: FadeIn(
                     duration: const Duration(seconds: 3),

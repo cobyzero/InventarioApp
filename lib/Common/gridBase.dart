@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Models/salidasModel.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 

@@ -19,3 +19,10 @@ lineaContainer({double w: double.infinity, double h = 2}) {
     margin: EdgeInsets.only(top: 10, bottom: 10),
   );
 }
+
+alertMensaje(String message) {
+  return AlertDialog(
+    title: const Text("Error:"),
+    content: Text(message),
+  );
+}

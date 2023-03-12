@@ -1,10 +1,16 @@
+import 'dart:io';
+
+import 'package:excel/excel.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:inventarioapp/Common/Grids/GridProducto.dart';
 import 'package:inventarioapp/Common/baseVentana.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/gridBase.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
+import 'package:inventarioapp/Models/proudctosModel.dart';
 
 class CargarProductoPage extends StatefulWidget {
   const CargarProductoPage({super.key});
@@ -15,44 +21,49 @@ class CargarProductoPage extends StatefulWidget {
 
 class _CargarProductoPageState extends State<CargarProductoPage> {
   var archivo = TextEditingController();
+  List<ProductosModel> lista = <ProductosModel>[];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorblanco(),
       body: BaseVentana(
-          fun: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Text(
-                "Cargar Producto",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          fun: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Text(
+                  "Cargar Producto",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+                IconButton(onPressed: () {}, icon: Icon(Icons.refresh))
+              ],
+            ),
+            space(h: 20),
+            Fila1(),
+            space(h: 10),
+            const Text(
+              "Resumen: 6 Productos encontrados",
+              style: TextStyle(color: Colors.cyan),
+            ),
+            space(h: 20),
+            BotonBase(
+              icon: Icons.download,
+              texto: "Descargar Plantilla",
+              w: 200,
+            ),
+            space(h: 20),
+            SizedBox(
+              width: double.infinity,
+              height: 600,
+              child: GridProducto(
+                data: lista.isEmpty ? [] : lista,
               ),
-              IconButton(
-                  onPressed: () {
-                    setState(() {});
-                  },
-                  icon: Icon(Icons.refresh))
-            ],
-          ),
-          space(h: 20),
-          Fila1(),
-          space(h: 10),
-          const Text(
-            "Resumen: 6 Productos encontrados",
-            style: TextStyle(color: Colors.cyan),
-          ),
-          space(h: 20),
-          BotonBase(
-            icon: Icons.download,
-            texto: "Descargar Plantilla",
-            w: 200,
-          ),
-          space(h: 20),
-          GridBase()
-        ],
+            ),
+          ],
+        ),
       )),
     );
   }
@@ -70,9 +81,57 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
             w: 400,
           ),
           space(w: 20),
-          BotonBase(icon: Icons.upload, texto: "Subir"),
+          BotonBase(
+            icon: Icons.upload,
+            texto: "Subir",
+            fun: () async {
+              FilePickerResult? result = await FilePicker.platform.pickFiles(
+                type: FileType.custom,
+                allowedExtensions: ['xlsx'],
+                allowMultiple: false,
+              );
+
+              if (result != null) {
+                setState(() {
+                  archivo.text = result.paths[0]!;
+                });
+
+                var bytes = File(result.paths[0]!).readAsBytesSync();
+                var excel = Excel.decodeBytes(bytes);
+                var table = excel.tables.keys.first;
+
+                if (excel.tables[table]!.rows[0][0]!.value.toString() != "Codigo") {
+                  // ignore: use_build_context_synchronously
+                  showDialog(
+                      context: context,
+                      builder: alertMensaje(
+                        "Columnda Codigo no Existe",
+                      ));
+                  return;
+                }
+
+                List<ProductosModel> listaTemp = [];
+                for (var i = 1; i <= excel.tables[table]!.maxRows - 1; i++) {
+                  List<dynamic> datos = [];
+
+                  for (var e = 0; e < excel.tables[table]!.maxCols; e++) {
+                    datos.add(excel.tables[table]!.rows[i][e]!.value);
+                  }
+
+                  listaTemp.add(ProductosModel(0, datos[0].toString(), datos[1].toString(),
+                      datos[2].toString(), datos[3].toString(), 0));
+                }
+                setState(() {
+                  lista = listaTemp;
+                });
+              }
+            },
+          ),
           space(w: 20),
-          BotonBase(icon: Icons.sync, texto: "Procesar")
+          BotonBase(
+            icon: Icons.sync,
+            texto: "Procesar",
+          )
         ],
       ),
     );

@@ -2,16 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/common.dart';
 
 class CardBase extends StatelessWidget {
-  CardBase(
-      {super.key,
-      required this.texto,
-      required this.cantidad,
-      required this.confirmadas,
-      required this.color});
+  CardBase({super.key, required this.texto, required this.cantidad, required this.color});
 
   String texto;
-  int cantidad;
-  int confirmadas;
+  String cantidad;
   Color color;
 
   @override
@@ -41,13 +35,9 @@ class CardBase extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  cantidad.toString(),
+                  cantidad,
                   style: TextStyle(fontSize: 70, color: color, fontWeight: FontWeight.bold),
                 ),
-                Text(
-                  "Confirmadas: $confirmadas",
-                  style: const TextStyle(color: Colors.grey),
-                )
               ],
             )
           ],

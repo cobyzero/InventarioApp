@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/botonMenu.dart';
-import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/miniBotonMenu.dart';
 import 'package:inventarioapp/Common/itemMiniMenu.dart';
+import 'package:inventarioapp/Controllers/mainController.dart';
+import 'package:inventarioapp/Models/usuariosModel.dart';
 import 'package:inventarioapp/Views/Entradas/buscarEntrada.dart';
 import 'package:inventarioapp/Views/Entradas/listarEntrada.dart';
 import 'package:inventarioapp/Views/Entradas/registrarEntrada.dart';
@@ -20,7 +21,6 @@ import 'package:inventarioapp/Views/Salidas/registrarSalida.dart';
 import 'package:inventarioapp/Views/inventarioPage.dart';
 import 'package:inventarioapp/Views/proveedoresPage.dart';
 import 'package:inventarioapp/Views/tecnicosPage.dart';
-import 'package:inventarioapp/Common/GraficoBase.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -30,16 +30,13 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  late UsuariosModel usuariosModel;
   bool active = true;
   var controller = PageController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    usuariosModel = ModalRoute.of(context)!.settings.arguments as UsuariosModel;
     return Scaffold(
       backgroundColor: Color(0xffF1F5F9),
       body: Row(
@@ -71,9 +68,9 @@ class _MainPageState extends State<MainPage> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Bienvenido denuevo, Sebastian!",
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                            Text(
+                              "Bienvenido denuevo, ${usuariosModel.NombreComplet}!",
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                             ),
                             Row(
                               children: const [

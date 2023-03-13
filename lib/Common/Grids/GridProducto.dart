@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inventarioapp/Controllers/productosController.dart';
 import 'package:inventarioapp/Models/proudctosModel.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -32,7 +33,7 @@ class EmployeeDataSource extends DataGridSource {
         .map<DataGridRow>((e) => DataGridRow(cells: [
               DataGridCell(columnName: "CodigoProducto", value: e.Codigo),
               DataGridCell(columnName: "DescripcionProducto", value: e.Descripcion),
-              const DataGridCell(columnName: "Estado", value: 1)
+              DataGridCell(columnName: "Estado", value: e.existe != 0 ? "Existente" : "Correcto")
             ]))
         .toList();
   }

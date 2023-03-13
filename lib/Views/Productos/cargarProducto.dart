@@ -10,6 +10,7 @@ import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/gridBase.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
+import 'package:inventarioapp/Controllers/productosController.dart';
 import 'package:inventarioapp/Models/proudctosModel.dart';
 
 class CargarProductoPage extends StatefulWidget {
@@ -21,8 +22,11 @@ class CargarProductoPage extends StatefulWidget {
 
 class _CargarProductoPageState extends State<CargarProductoPage> {
   var archivo = TextEditingController();
-  List<ProductosModel> lista = <ProductosModel>[];
+  int maxcant = 0;
+  int actualcant = 0;
 
+  List<ProductosModel> lista = <ProductosModel>[];
+  int cantiProductos = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,11 +46,20 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
               ],
             ),
             space(h: 20),
-            Fila1(),
+            fila1(),
             space(h: 10),
-            const Text(
-              "Resumen: 6 Productos encontrados",
-              style: TextStyle(color: Colors.cyan),
+            Row(
+              children: [
+                Text(
+                  "Resumen: $cantiProductos Productos encontrados",
+                  style: const TextStyle(color: Colors.cyan),
+                ),
+                space(w: 30),
+                Text(
+                  "Cargando: $actualcant/$maxcant",
+                  style: const TextStyle(color: Colors.green),
+                ),
+              ],
             ),
             space(h: 20),
             BotonBase(
@@ -68,7 +81,7 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
     );
   }
 
-  SingleChildScrollView Fila1() {
+  SingleChildScrollView fila1() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -85,6 +98,10 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
             icon: Icons.upload,
             texto: "Subir",
             fun: () async {
+              if (maxcant != 0) {
+                return;
+              }
+
               FilePickerResult? result = await FilePicker.platform.pickFiles(
                 type: FileType.custom,
                 allowedExtensions: ['xlsx'],
@@ -100,16 +117,19 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
                 var excel = Excel.decodeBytes(bytes);
                 var table = excel.tables.keys.first;
 
-                if (excel.tables[table]!.rows[0][0]!.value.toString() != "Codigo") {
+                if (excel.tables[table]!.maxCols != 4) {
                   // ignore: use_build_context_synchronously
                   showDialog(
                       context: context,
                       builder: alertMensaje(
-                        "Columnda Codigo no Existe",
+                        "Columnas Invalidas",
                       ));
                   return;
                 }
 
+                setState(() {
+                  maxcant = excel.tables[table]!.maxRows - 1;
+                });
                 List<ProductosModel> listaTemp = [];
                 for (var i = 1; i <= excel.tables[table]!.maxRows - 1; i++) {
                   List<dynamic> datos = [];
@@ -118,11 +138,19 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
                     datos.add(excel.tables[table]!.rows[i][e]!.value);
                   }
 
+                  int existe = await ProductosController.checkProductoId(datos[0].toString());
+
                   listaTemp.add(ProductosModel(0, datos[0].toString(), datos[1].toString(),
-                      datos[2].toString(), datos[3].toString(), 0));
+                      datos[2].toString(), datos[3].toString(), 0, existe));
+
+                  setState(() {
+                    actualcant++;
+                  });
                 }
+
                 setState(() {
                   lista = listaTemp;
+                  cantiProductos = listaTemp.length;
                 });
               }
             },
@@ -131,6 +159,20 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
           BotonBase(
             icon: Icons.sync,
             texto: "Procesar",
+            fun: () {
+              if (lista.isEmpty) {
+                return;
+              }
+
+              ProductosController.setProductosList(lista);
+
+              setState(() {
+                lista = [];
+                cantiProductos = 0;
+                maxcant = 0;
+                actualcant = 0;
+              });
+            },
           )
         ],
       ),

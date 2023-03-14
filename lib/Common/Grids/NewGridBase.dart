@@ -16,4 +16,13 @@ class NewGridBase extends StatelessWidget {
     }
     return columns;
   }
+
+  static getColumns(List<String> columnsGet) {
+    List<DataColumn> columnsTemp = [];
+
+    for (var element in columnsGet) {
+      columnsTemp.add(DataColumn(label: Text(element)));
+    }
+    return columnsTemp;
+  }
 }

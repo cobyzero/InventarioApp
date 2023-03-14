@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:inventarioapp/Controllers/API.dart';
-import 'package:inventarioapp/Models/proudctosModel.dart';
+import 'package:inventarioapp/Models/productosModel.dart';
 import 'package:http/http.dart' as http;
 
 class ProductosController {
@@ -19,5 +19,29 @@ class ProductosController {
     http.Response response = await http.get(uri);
 
     return int.parse(response.body);
+  }
+
+  static Future<List<ProductosModel>> getProductos() async {
+    Uri uri = API.getUri(path: "api/getProductos");
+
+    http.Response response = await http.get(uri);
+
+    List<ProductosModel> posts =
+        (jsonDecode(response.body) as List).map((e) => ProductosModel.fromJson(e)).toList();
+
+    return posts;
+  }
+
+  static void putProducto(ProductosModel producto) async {
+    Uri uri = API.getUri(path: "api/putProducto");
+
+    String json = jsonEncode(producto.toJson());
+    await http.put(uri, body: json);
+  }
+
+  static void deleteProducto(int id) async {
+    Uri uri = API.getUri(path: "api/deleteProducto", parameters: {"id": id.toString()});
+
+    await http.delete(uri);
   }
 }

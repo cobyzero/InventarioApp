@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:inventarioapp/Common/Grids/GridProducto.dart';
+import 'package:flutter/services.dart';
+import 'package:inventarioapp/Common/Grids/GridCargarProducto.dart';
 import 'package:inventarioapp/Common/baseVentana.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/colors.dart';
@@ -11,7 +12,7 @@ import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/gridBase.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
 import 'package:inventarioapp/Controllers/productosController.dart';
-import 'package:inventarioapp/Models/proudctosModel.dart';
+import 'package:inventarioapp/Models/productosModel.dart';
 
 class CargarProductoPage extends StatefulWidget {
   const CargarProductoPage({super.key});
@@ -66,6 +67,17 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
               icon: Icons.download,
               texto: "Descargar Plantilla",
               w: 200,
+              fun: () async {
+                ByteData data = await rootBundle.load('assets/PlantillaProductos.xlsx');
+                var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+
+                print(data);
+                var directory = await FilePicker.platform.getDirectoryPath();
+
+                File('$directory/PlantillaProductos.xlsx')
+                  ..createSync(recursive: true)
+                  ..writeAsBytesSync(bytes!);
+              },
             ),
             space(h: 20),
             SizedBox(
@@ -138,10 +150,8 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
                     datos.add(excel.tables[table]!.rows[i][e]!.value);
                   }
 
-                  int existe = await ProductosController.checkProductoId(datos[0].toString());
-
                   listaTemp.add(ProductosModel(0, datos[0].toString(), datos[1].toString(),
-                      datos[2].toString(), datos[3].toString(), 0, existe));
+                      datos[2].toString(), datos[3].toString(), 0));
 
                   setState(() {
                     actualcant++;

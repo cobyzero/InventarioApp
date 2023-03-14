@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/gridBase.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
-import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:inventarioapp/Controllers/proveedorController.dart';
+import 'package:inventarioapp/Models/entradasModel.dart';
+import 'package:inventarioapp/Models/productosModel.dart';
+import 'package:inventarioapp/Models/proveedoresModel.dart';
 
 class RegistrarEntradaPage extends StatefulWidget {
   const RegistrarEntradaPage({super.key});
@@ -21,6 +25,17 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
   var codigoProducto = TextEditingController();
   var descripcionProducto = TextEditingController();
   var cantidad = TextEditingController();
+  late EntradasModel productoSelecionado;
+  var columns = ["", "Codigo", "Descripcion", "Cantidad", "Longitud", "Almacen"];
+
+  List<EntradasModel> data = [
+    EntradasModel(0, "00001", DateTime.now(), "Cobyzero", "01212", "Sebastian", 23, 0212, "SK2",
+        "Producto nuevo", "0.23", "Alm01")
+  ];
+
+  late ProveedoresModel productoSelecionadoProveedor;
+  var columnsProveedor = ["", "Numero Documento", "Nombre Completo"];
+  List<ProveedoresModel> dataProveedor = [];
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +74,10 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
               lineaContainer(),
               space(h: 20),
               //Expanded(child: Text("dasd"))
-              GridBase(),
+              NewGridBase(
+                rows: getRows(data),
+                columns: getColumns(),
+              ),
               space(h: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -78,6 +96,80 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
         ),
       ),
     );
+  }
+
+  getRowsProveedor(List<ProveedoresModel> dataTemp) {
+    List<DataRow> rows = [];
+    int count = 1;
+    for (var element in dataTemp) {
+      rows.add(DataRow(cells: [
+        DataCell(TextButton(
+          child: Text(count.toString()),
+          onPressed: () {
+            setDetalleProveedor(element);
+          },
+        )),
+        DataCell(Text(element.NumeroDocumento)),
+        DataCell(Text(element.NombreCompleto)),
+      ]));
+      count++;
+    }
+    return rows;
+  }
+
+  setDetalleProveedor(ProveedoresModel model) {
+    productoSelecionadoProveedor = model;
+    docProveedor.text = model.NumeroDocumento;
+    nombreProveedor.text = model.NombreCompleto;
+    Navigator.pop(context);
+  }
+
+  getProveedorColumns() {
+    List<DataColumn> columnsTemp = [];
+
+    for (var element in columnsProveedor) {
+      columnsTemp.add(DataColumn(label: Text(element)));
+    }
+
+    return columnsTemp;
+  }
+
+  getRows(List<EntradasModel> data) {
+    List<DataRow> rows = [];
+    int count = 1;
+    for (var element in data) {
+      rows.add(DataRow(cells: [
+        DataCell(TextButton(
+          child: Text(count.toString()),
+          onPressed: () {
+            deleteProducto(element);
+          },
+        )),
+        DataCell(Text(element.CodigoProducto)),
+        DataCell(Text(element.DescripcionProducto)),
+        DataCell(Text(element.CantidadProductos.toString())),
+        DataCell(Text(element.LongitudProducto)),
+        DataCell(Text(element.AlmacenProducto)),
+      ]));
+      count++;
+    }
+    return rows;
+  }
+
+  deleteProducto(EntradasModel count) {
+    setState(() {
+      data.remove(count);
+    });
+  }
+
+  getColumns() {
+    List<DataColumn> columnsTemp = [];
+
+    for (var element in columns) {
+      columnsTemp.add(DataColumn(label: Text(element)));
+    }
+
+    return columnsTemp;
   }
 
   SingleChildScrollView Fila3() {
@@ -125,7 +217,24 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
           MyTextFormField(controller: nombreProveedor, text: "Nombre Proveedor"),
           space(w: 20),
           IconButton(
-              onPressed: () {},
+              onPressed: () async {
+                List<ProveedoresModel> dataProveedorTemp =
+                    await ProveedorController.getProveedores();
+                setState(() {
+                  dataProveedor = dataProveedorTemp;
+                });
+                // ignore: use_build_context_synchronously
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text("Proveedores"),
+                      content: NewGridBase(
+                          columns: getProveedorColumns(), rows: getRowsProveedor(dataProveedor)),
+                    );
+                  },
+                );
+              },
               icon: const Icon(
                 Icons.search,
                 size: 40,

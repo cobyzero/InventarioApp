@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
+import 'package:inventarioapp/Controllers/API.dart';
 import 'package:inventarioapp/Controllers/loginController.dart';
 import 'package:inventarioapp/Views/mainPage.dart';
 
@@ -15,6 +16,11 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var email = TextEditingController();
   var password = TextEditingController();
+  @override
+  void initState() {
+    API.checkServer(context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

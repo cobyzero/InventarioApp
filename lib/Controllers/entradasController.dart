@@ -28,4 +28,15 @@ class EntradasController {
 
     return posts;
   }
+
+  static getEntrada() async {
+    Uri uri = API.getUri(path: "api/getEntrada");
+
+    http.Response response = await http.get(uri);
+
+    List<EntradasModel> posts =
+        (jsonDecode(response.body) as List).map((e) => EntradasModel.fromJson(e)).toList();
+
+    return posts;
+  }
 }

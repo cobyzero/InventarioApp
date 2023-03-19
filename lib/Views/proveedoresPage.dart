@@ -20,7 +20,7 @@ class _ProveedoresPageState extends State<ProveedoresPage> {
   var numeroDocumento = TextEditingController();
   var nombreCompleto = TextEditingController();
 
-  late ProveedoresModel productoSelecionado;
+  ProveedoresModel productoSelecionado = ProveedoresModel(0, "", "");
   var columns = ["", "Numero Documento", "Nombre Completo"];
 
   List<ProveedoresModel> data = [];
@@ -97,11 +97,10 @@ class _ProveedoresPageState extends State<ProveedoresPage> {
                 onPressed: () async {
                   setState(() {
                     data.clear();
-                    productoSelecionado.IdProveedor = 0;
                     numeroDocumento.text = "";
                     nombreCompleto.text = "";
                   });
-
+                  productoSelecionado.IdProveedor = 0;
                   List<ProveedoresModel> listaTemp = await ProveedorController.getProveedores();
 
                   setState(() {

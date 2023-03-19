@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
+import 'package:inventarioapp/Common/Search/SearchProveedor.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
@@ -36,8 +37,6 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
 
   ///Requerimientos para el DataTable [Proveedores]
   late ProveedoresModel proveedorSelecionado;
-  var columnsProveedor = ["", "Numero Documento", "Nombre Completo"];
-  List<ProveedoresModel> dataProveedor = [];
 
   ///Requerimientos para el DataTable [Productos]
   late ProductosModel productoSelecionado;
@@ -153,25 +152,6 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
     codigoProducto.text = model.Codigo;
     descripcionProducto.text = model.Descripcion;
     Navigator.pop(context);
-  }
-
-  getRowsProveedor(List<ProveedoresModel> dataTemp) {
-    List<DataRow> rows = [];
-    int count = 1;
-    for (var element in dataTemp) {
-      rows.add(DataRow(cells: [
-        DataCell(TextButton(
-          child: Text(count.toString()),
-          onPressed: () {
-            setDetalleProveedor(element);
-          },
-        )),
-        DataCell(Text(element.NumeroDocumento)),
-        DataCell(Text(element.NombreCompleto)),
-      ]));
-      count++;
-    }
-    return rows;
   }
 
   setDetalleProveedor(ProveedoresModel model) {
@@ -335,23 +315,8 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
           space(w: 20),
           IconButton(
               onPressed: () async {
-                List<ProveedoresModel> dataProveedorTemp =
-                    await ProveedorController.getProveedores();
-                setState(() {
-                  dataProveedor = dataProveedorTemp;
-                });
                 // ignore: use_build_context_synchronously
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text("Proveedores"),
-                      content: NewGridBase(
-                          columns: NewGridBase.getColumns(columnsProveedor),
-                          rows: getRowsProveedor(dataProveedor)),
-                    );
-                  },
-                );
+                await SearchProveedor(setDetalleProveedor, context).searchProveedor();
               },
               icon: const Icon(
                 Icons.search,

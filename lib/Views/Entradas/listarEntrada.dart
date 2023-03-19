@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/dateTimeFormField.dart';
 import 'package:inventarioapp/Common/gridBase.dart';
-import 'package:inventarioapp/Common/textFormField.dart';
+import 'package:inventarioapp/Controllers/entradasController.dart';
+import 'package:inventarioapp/Models/entradasModel.dart';
+import 'package:inventarioapp/Models/productosModel.dart';
 
 class ListarEntradaPage extends StatefulWidget {
   const ListarEntradaPage({super.key});
@@ -13,9 +16,21 @@ class ListarEntradaPage extends StatefulWidget {
 }
 
 class _ListarEntradaPageState extends State<ListarEntradaPage> {
-  var fechaInicio = TextEditingController();
-  var fechaFin = TextEditingController();
-
+  late EntradasModel productoSelecionado;
+  List<EntradasModel> data = [];
+  var columns = [
+    "",
+    "Fecha Registro",
+    "Nro de Documento",
+    "Usuario Registro",
+    "Proveedor",
+    "Codigo Producto",
+    "Descripcion Producto",
+    "Longitud Producto",
+    "Almacen Producto",
+    "Cantidad"
+  ];
+  List<EntradasModel> dataProducto = [];
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,17 +49,25 @@ class _ListarEntradaPageState extends State<ListarEntradaPage> {
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
                 IconButton(
-                    onPressed: () {
-                      setState(() {});
+                    onPressed: () async {
+                      data.clear();
+                      List<EntradasModel> dataTemp = await EntradasController.getEntrada();
+
+                      setState(() {
+                        data = dataTemp;
+                      });
                     },
                     icon: Icon(Icons.refresh))
               ],
             ),
             space(h: 20),
-            Fila1(),
-            lineaContainer(),
-            space(h: 20),
-            GridBase(),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: NewGridBase(
+                columns: NewGridBase.getColumns(columns),
+                rows: getRows(data),
+              ),
+            ),
             space(h: 20),
             BotonBase(icon: Icons.download, texto: "Descargar Excel")
           ],
@@ -53,21 +76,27 @@ class _ListarEntradaPageState extends State<ListarEntradaPage> {
     );
   }
 
-  Row Fila1() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        DateTimeFormField(controller: fechaInicio, texto: "Fecha Inicio"),
-        space(w: 20),
-        DateTimeFormField(controller: fechaFin, texto: "FechaFin"),
-        space(w: 20),
-        IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.search,
-              size: 40,
-            )),
-      ],
-    );
+  getRows(List<EntradasModel> dataTemp) {
+    List<DataRow> rows = [];
+    int count = 1;
+    for (var element in dataTemp) {
+      rows.add(DataRow(cells: [
+        DataCell(TextButton(
+          child: Text(count.toString()),
+          onPressed: () {},
+        )),
+        DataCell(Text(element.fechaRegistro!)),
+        DataCell(Text(element.numeroDocumento!)),
+        DataCell(Text(element.usuarioRegistro!)),
+        DataCell(Text(element.nombreProveedor!)),
+        DataCell(Text(element.codigoProducto!)),
+        DataCell(Text(element.descripcionProducto!)),
+        DataCell(Text(element.longitudProducto!)),
+        DataCell(Text(element.almacenProducto!)),
+        DataCell(Text(element.cantidadProductos.toString())),
+      ]));
+      count++;
+    }
+    return rows;
   }
 }

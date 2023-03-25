@@ -90,7 +90,7 @@ class _ProveedoresPageState extends State<TecnicosPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Text(
-              "Detalle Proveedor",
+              "Detalle Tecnico",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             IconButton(

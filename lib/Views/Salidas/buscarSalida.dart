@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Common/gridBase.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
+import 'package:inventarioapp/Controllers/salidasController.dart';
+import 'package:inventarioapp/Models/salidasModel.dart';
 
 class BuscarSalidaPage extends StatefulWidget {
   const BuscarSalidaPage({super.key});
@@ -18,8 +20,11 @@ class _BuscarSalidaPageState extends State<BuscarSalidaPage> {
   var usuario = TextEditingController();
   var documentoTecnico = TextEditingController();
   var nombreTecnico = TextEditingController();
-
+  List<String> columns = ["Codigo", "Descripcion", "Longitud", "Almacen", "Cantidad"];
+  int total = 0;
   @override
+  List<SalidasModel> data = [];
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorblanco(),
@@ -51,11 +56,11 @@ class _BuscarSalidaPageState extends State<BuscarSalidaPage> {
               Fila2(),
               lineaContainer(),
               space(h: 20),
-              GridBase(),
+              NewGridBase(columns: NewGridBase.getColumns(columns), rows: getRows(data)),
               space(h: 30),
               Row(
                 children: [
-                  Text("Total: 24"),
+                  Text("Total: $total"),
                   space(w: 550),
                   BotonBase(icon: Icons.picture_as_pdf, texto: "Descargar PDF")
                 ],
@@ -65,6 +70,21 @@ class _BuscarSalidaPageState extends State<BuscarSalidaPage> {
         ),
       ),
     );
+  }
+
+  getRows(List<SalidasModel> data) {
+    List<DataRow> rows = [];
+    for (var element in data) {
+      total += element.cantidadProductos!;
+      rows.add(DataRow(cells: [
+        DataCell(Text(element.codigoProducto!)),
+        DataCell(Text(element.descripcionProducto!)),
+        DataCell(Text(element.longitudProducto!)),
+        DataCell(Text(element.almacenProducto!)),
+        DataCell(Text(element.cantidadProductos.toString())),
+      ]));
+    }
+    return rows;
   }
 
   Fila2() {
@@ -91,14 +111,38 @@ class _BuscarSalidaPageState extends State<BuscarSalidaPage> {
         MyTextFormField(controller: numeroDocumento, text: "Numero de Documento"),
         space(w: 20),
         IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              List<SalidasModel> tempData =
+                  await SalidasController.getSalidaForDocumento(numeroDocumento.text);
+
+              if (tempData.isEmpty) {
+                return;
+              }
+              setState(() {
+                data = tempData;
+                fecha.text = data[0].fechaRegistro!;
+                usuario.text = data[0].usuarioRegistro!;
+                nombreTecnico.text = data[0].nombreCliente!;
+                documentoTecnico.text = data[0].documentoCliente!;
+              });
+            },
             icon: const Icon(
               Icons.search,
               size: 40,
             )),
         space(w: 20),
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+              setState(() {
+                data.clear();
+                fecha.text = "";
+                usuario.text = "";
+                documentoTecnico.text = "";
+                nombreTecnico.text = "";
+                numeroDocumento.text = "";
+                total = 0;
+              });
+            },
             icon: const Icon(
               Icons.cleaning_services_outlined,
               size: 40,

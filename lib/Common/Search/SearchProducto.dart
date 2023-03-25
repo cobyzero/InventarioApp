@@ -33,8 +33,9 @@ class SearchProucto {
     return rows;
   }
 
-  searchProveedor() async {
-    dataProveedor = await ProductosController.getProductos();
+  Future<void> searchProveedor() async {
+    dataProveedor =
+        await ProductosController.getProductos().whenComplete(() => Navigator.pop(context));
 
     // ignore: use_build_context_synchronously
     showDialog(

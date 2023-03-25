@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:inventarioapp/Models/proveedoresModel.dart';
 
 class ProveedorController {
-  static getProveedores() async {
+  static Future<List<ProveedoresModel>> getProveedores() async {
     Uri uri = API.getUri(path: "api/getProveedor");
     http.Response response = await http.get(uri);
 

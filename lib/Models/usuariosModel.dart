@@ -2,16 +2,18 @@ class UsuariosModel {
   int IdUsuario;
   String NombreComplet;
   String NombreUsuario;
+  String NumeroDocumento;
   String Clave;
   int IdPermisos;
 
-  UsuariosModel(
-      this.IdUsuario, this.NombreComplet, this.NombreUsuario, this.Clave, this.IdPermisos);
+  UsuariosModel(this.IdUsuario, this.NombreComplet, this.NombreUsuario, this.NumeroDocumento,
+      this.Clave, this.IdPermisos);
 
   UsuariosModel.fromJson(Map<String, dynamic> json)
-      : IdUsuario = json["IdUsuario"],
-        NombreComplet = json["NombreCompleto"],
-        NombreUsuario = json["NombreUsuario"],
-        Clave = json["Clave"],
-        IdPermisos = json["IdPermisos"];
+      : IdUsuario = json["idUsuario"],
+        NombreComplet = json["nombreCompleto"],
+        NombreUsuario = json["nombreUsuario"],
+        NumeroDocumento = json["numeroDocumento"],
+        Clave = json["clave"],
+        IdPermisos = json["idPermisos"];
 }

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:inventarioapp/Common/Grids/GridDetalleProducto.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/baseVentana.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Common/gridBase.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
 import 'package:inventarioapp/Controllers/productosController.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
@@ -91,6 +89,7 @@ class _DetalleProductoState extends State<DetalleProducto> {
               ),
               IconButton(
                   onPressed: () async {
+                    cargando(context);
                     setState(() {
                       data.clear();
                     });
@@ -99,11 +98,11 @@ class _DetalleProductoState extends State<DetalleProducto> {
                     descripcion.text = "";
                     longitud.text = "";
                     almacen.text = "";
-                    var datos = await ProductosController.getProductos();
+                    var datos = await ProductosController.getProductos()
+                        .whenComplete(() => Navigator.pop(context));
 
                     setState(() {
                       data = datos;
-                      print(data[0].IdProducto);
                     });
                   },
                   icon: const Icon(Icons.refresh))

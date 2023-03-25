@@ -31,7 +31,7 @@ class SearchProveedor {
     return rows;
   }
 
-  searchProveedor() async {
+  Future<void> searchProveedor() async {
     dataProveedor = await ProveedorController.getProveedores();
 
     // ignore: use_build_context_synchronously

@@ -20,9 +20,30 @@ lineaContainer({double w: double.infinity, double h = 2}) {
   );
 }
 
-alertMensaje(String message) {
-  return AlertDialog(
-    title: const Text("Error:"),
-    content: Text(message),
+alertMensaje(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(content: Text(message));
+    },
+  );
+}
+
+cargando(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        content: SizedBox(
+          width: 100,
+          height: 100,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [const Text("Loading.."), space(h: 10), const CircularProgressIndicator()],
+          ),
+        ),
+      );
+    },
   );
 }

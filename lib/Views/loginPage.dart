@@ -51,29 +51,18 @@ class _LoginPageState extends State<LoginPage> {
                 "Sign in",
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Text("Don't have an account?"),
-                  TextButton(onPressed: () {}, child: const Text("Sign up"))
-                ],
-              ),
-              space(h: 20),
+              space(h: 40),
               MyTextFormField(
                 controller: email,
                 text: "Email*",
               ),
-              space(h: 20),
+              space(h: 30),
               MyTextFormField(
                 controller: password,
                 text: "Password*",
               ),
               space(
-                h: 20,
-              ),
-              TextButton(onPressed: () {}, child: const Text("Forgot password?")),
-              space(
-                h: 20,
+                h: 40,
               ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -85,10 +74,8 @@ class _LoginPageState extends State<LoginPage> {
                         bottom: 17,
                       )),
                   onPressed: () async {
-                    LoginController user =
-                        LoginController(username: email.text, password: password.text);
-
-                    await user.getLoginRequest(context);
+                    cargando(context);
+                    await LoginController.getLoginRequest(context, email.text, password.text);
                   },
                   child: FadeIn(
                     duration: const Duration(seconds: 3),

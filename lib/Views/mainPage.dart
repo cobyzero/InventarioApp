@@ -4,13 +4,11 @@ import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/miniBotonMenu.dart';
 import 'package:inventarioapp/Common/itemMiniMenu.dart';
 import 'package:inventarioapp/Controllers/mainController.dart';
-import 'package:inventarioapp/Models/usuariosModel.dart';
+import 'package:inventarioapp/LocalData/localData.dart';
+import 'package:inventarioapp/Models/permisosModel.dart';
 import 'package:inventarioapp/Views/Entradas/buscarEntrada.dart';
 import 'package:inventarioapp/Views/Entradas/listarEntrada.dart';
 import 'package:inventarioapp/Views/Entradas/registrarEntrada.dart';
-import 'package:inventarioapp/Views/Pedidos/buscarPedido.dart';
-import 'package:inventarioapp/Views/Pedidos/listarPedido.dart';
-import 'package:inventarioapp/Views/Pedidos/registrarPedido.dart';
 import 'package:inventarioapp/Views/Productos/cargarProducto.dart';
 import 'package:inventarioapp/Views/Productos/detalleProducto.dart';
 import 'package:inventarioapp/Views/Salidas/buscarSalida.dart';
@@ -30,24 +28,43 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  late UsuariosModel usuariosModel;
-  bool active = true;
+  late PermisosModel permisosModel;
+  bool active = false;
   var controller = PageController();
+  bool listo = false;
 
   @override
   Widget build(BuildContext context) {
-    usuariosModel = ModalRoute.of(context)!.settings.arguments as UsuariosModel;
     return Scaffold(
-      backgroundColor: Color(0xffF1F5F9),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.message_outlined),
+      ),
+      backgroundColor: const Color(0xffF1F5F9),
       body: Row(
         children: [
           Container(
-            height: double.infinity,
-            padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
-            width: active ? 80 : 260,
-            color: const Color(0xff111827),
-            child: active ? MenuCerrado() : MenuAbierto(),
-          ),
+              height: double.infinity,
+              padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+              width: active ? 80 : 260,
+              color: const Color(0xff111827),
+              child: FutureBuilder(
+                future: MainController.getPermisos(LocalData.userLocal!.IdPermisos),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    permisosModel = snapshot.data!;
+                    return active ? MenuCerrado() : MenuAbierto();
+                  } else {
+                    return const Center(
+                      child: SizedBox(
+                        height: 40,
+                        width: 40,
+                        child: CircularProgressIndicator.adaptive(),
+                      ),
+                    );
+                  }
+                },
+              )),
           Expanded(
             child: Column(
               children: [
@@ -65,27 +82,10 @@ class _MainPageState extends State<MainPage> {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Bienvenido denuevo, ${usuariosModel.NombreComplet}!",
-                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                            ),
-                            Row(
-                              children: const [
-                                Icon(
-                                  Icons.notifications,
-                                  color: Colors.grey,
-                                ),
-                                Text(
-                                  "Tienes 2 nuevos mensajes",
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                              ],
-                            )
-                          ],
-                        )
+                        Text(
+                          "Bienvenido denuevo, ${LocalData.userLocal!.NombreComplet}!",
+                          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                        ),
                       ],
                     ),
                   ),
@@ -103,7 +103,7 @@ class _MainPageState extends State<MainPage> {
   PageView pageViewList() {
     return PageView(
       controller: controller,
-      children: [
+      children: const [
         HomePage(),
         RegistrarSalidaPage(),
         BuscarSalidaPage(),
@@ -113,9 +113,6 @@ class _MainPageState extends State<MainPage> {
         ListarEntradaPage(),
         DetalleProducto(),
         CargarProductoPage(),
-        RegistrarPedidoPage(),
-        BuscarPedidoPage(),
-        ListarPedidoPage(),
         TecnicosPage(),
         ProveedoresPage(),
         InventarioPage(),
@@ -133,6 +130,7 @@ class _MainPageState extends State<MainPage> {
             children: [
               IconButton(
                   onPressed: () {
+                    LocalData.clearData();
                     Navigator.pop(context);
                   },
                   icon: const Icon(
@@ -165,87 +163,84 @@ class _MainPageState extends State<MainPage> {
           /**
            * Salidas
            */
-          BotonMenu(
-            fun: () {
-              menuSalidas();
-            },
-            texto: "Salidas",
-            icon: Icons.unarchive,
-          ),
+          if (permisosModel.salidas == 1)
+            BotonMenu(
+              fun: () {
+                menuSalidas();
+              },
+              texto: "Salidas",
+              icon: Icons.unarchive,
+            ),
           space(h: 10),
           /**
            * Entradas
            */
-          BotonMenu(
-            fun: () {
-              menuEntradas();
-            },
-            texto: "Entradas",
-            icon: Icons.archive,
-          ),
+          if (permisosModel.entradas == 1)
+            BotonMenu(
+              fun: () {
+                menuEntradas();
+              },
+              texto: "Entradas",
+              icon: Icons.archive,
+            ),
           space(h: 10),
           /**
            * Productos
            */
-          BotonMenu(
-            fun: () {
-              menuProductos();
-            },
-            texto: "Productos",
-            icon: Icons.widgets,
-          ),
+          if (permisosModel.productos == 1)
+            BotonMenu(
+              fun: () {
+                menuProductos();
+              },
+              texto: "Productos",
+              icon: Icons.widgets,
+            ),
           space(h: 10),
-          /**
-           * Pedidos
-           */
-          BotonMenu(
-            fun: () {
-              menuPedidos();
-            },
-            texto: "Pedidos",
-            icon: Icons.import_contacts,
-          ),
-          space(h: 10),
+
           /**
            * Tecnicos
            */
-          BotonMenu(
-            fun: () {
-              controller.jumpToPage(12);
-            },
-            texto: "Tecnicos",
-            icon: Icons.groups,
-          ),
+          if (permisosModel.configuracion == 1)
+            BotonMenu(
+              fun: () {
+                controller.jumpToPage(9);
+              },
+              texto: "Tecnicos",
+              icon: Icons.groups,
+            ),
           space(h: 10),
           /**
            * Proveedores
            */
-          BotonMenu(
-            fun: () {
-              controller.jumpToPage(13);
-            },
-            texto: "Proveedores",
-            icon: Icons.local_shipping,
-          ),
+          if (permisosModel.proveedores == 1)
+            BotonMenu(
+              fun: () {
+                controller.jumpToPage(10);
+              },
+              texto: "Proveedores",
+              icon: Icons.local_shipping,
+            ),
           space(h: 10),
           /**
            * Inventario
            */
-          BotonMenu(
-            fun: () {
-              controller.jumpToPage(14);
-            },
-            texto: "Inventario",
-            icon: Icons.inventory_2,
-          ),
+          if (permisosModel.inventario == 1)
+            BotonMenu(
+              fun: () {
+                controller.jumpToPage(11);
+              },
+              texto: "Inventario",
+              icon: Icons.inventory_2,
+            ),
           space(h: 10),
-          BotonMenu(
-            fun: () {
-              controller.jumpToPage(15);
-            },
-            texto: "Configuracion",
-            icon: Icons.settings,
-          ),
+          if (permisosModel.configuracion == 1)
+            BotonMenu(
+              fun: () {
+                controller.jumpToPage(12);
+              },
+              texto: "Configuracion",
+              icon: Icons.settings,
+            ),
         ],
       ),
     );
@@ -274,46 +269,6 @@ class _MainPageState extends State<MainPage> {
               fun: () {
                 Navigator.pop(context);
                 controller.jumpToPage(8);
-              },
-            ),
-          ],
-        ));
-      },
-    );
-  }
-
-  Future<dynamic> menuPedidos() {
-    return showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-            content: Row(
-          children: [
-            MiniMenuBase(
-              color: Colors.black,
-              icon: Icons.add,
-              texto: "Agregar",
-              fun: () {
-                Navigator.pop(context);
-                controller.jumpToPage(9);
-              },
-            ),
-            MiniMenuBase(
-              color: Colors.black,
-              icon: Icons.search,
-              texto: "Buscar",
-              fun: () {
-                Navigator.pop(context);
-                controller.jumpToPage(10);
-              },
-            ),
-            MiniMenuBase(
-              color: Colors.black,
-              icon: Icons.list,
-              texto: "Listar",
-              fun: () {
-                Navigator.pop(context);
-                controller.jumpToPage(11);
               },
             ),
           ],
@@ -362,7 +317,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Future<dynamic> menuSalidas() {
+  menuSalidas() {
     return showDialog(
       context: context,
       builder: (context) {
@@ -425,61 +380,61 @@ class _MainPageState extends State<MainPage> {
             icon: Icons.home,
           ),
           space(h: 10),
-          MiniBotonMenu(
-            fun: () {
-              menuSalidas();
-            },
-            icon: Icons.unarchive,
-          ),
+          if (permisosModel.salidas == 1)
+            MiniBotonMenu(
+              fun: () {
+                menuSalidas();
+              },
+              icon: Icons.unarchive,
+            ),
           space(h: 10),
-          MiniBotonMenu(
-            fun: () {
-              menuEntradas();
-            },
-            icon: Icons.archive,
-          ),
+          if (permisosModel.entradas == 1)
+            MiniBotonMenu(
+              fun: () {
+                menuEntradas();
+              },
+              icon: Icons.archive,
+            ),
           space(h: 10),
-          MiniBotonMenu(
-            fun: () {
-              menuProductos();
-            },
-            icon: Icons.widgets,
-          ),
+          if (permisosModel.productos == 1)
+            MiniBotonMenu(
+              fun: () {
+                menuProductos();
+              },
+              icon: Icons.widgets,
+            ),
           space(h: 10),
-          MiniBotonMenu(
-            fun: () {
-              menuPedidos();
-            },
-            icon: Icons.import_contacts,
-          ),
+          if (permisosModel.configuracion == 1)
+            MiniBotonMenu(
+              fun: () {
+                controller.jumpToPage(12);
+              },
+              icon: Icons.groups,
+            ),
           space(h: 10),
-          MiniBotonMenu(
-            fun: () {
-              controller.jumpToPage(12);
-            },
-            icon: Icons.groups,
-          ),
+          if (permisosModel.proveedores == 1)
+            MiniBotonMenu(
+              fun: () {
+                controller.jumpToPage(13);
+              },
+              icon: Icons.local_shipping,
+            ),
           space(h: 10),
-          MiniBotonMenu(
-            fun: () {
-              controller.jumpToPage(13);
-            },
-            icon: Icons.local_shipping,
-          ),
+          if (permisosModel.inventario == 1)
+            MiniBotonMenu(
+              fun: () {
+                controller.jumpToPage(14);
+              },
+              icon: Icons.inventory_2,
+            ),
           space(h: 10),
-          MiniBotonMenu(
-            fun: () {
-              controller.jumpToPage(14);
-            },
-            icon: Icons.inventory_2,
-          ),
-          space(h: 10),
-          MiniBotonMenu(
-            fun: () {
-              controller.jumpToPage(15);
-            },
-            icon: Icons.settings,
-          ),
+          if (permisosModel.configuracion == 1)
+            MiniBotonMenu(
+              fun: () {
+                controller.jumpToPage(15);
+              },
+              icon: Icons.settings,
+            ),
         ],
       ),
     );

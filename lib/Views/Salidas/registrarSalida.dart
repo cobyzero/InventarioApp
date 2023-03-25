@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/Search/SearchProducto.dart';
-import 'package:inventarioapp/Common/Search/SearchTecnico.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
 import 'package:inventarioapp/Controllers/salidasController.dart';
+import 'package:inventarioapp/LocalData/localData.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
 import 'package:inventarioapp/Models/salidasModel.dart';
 import 'package:inventarioapp/Models/tecnicosModel.dart';
@@ -21,14 +21,13 @@ class RegistrarSalidaPage extends StatefulWidget {
 class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
   var numDocumento = TextEditingController();
   var fechaRegistro = TextEditingController();
-  var docTecnico = TextEditingController();
-  var nombreTecnico = TextEditingController();
+  var nombreUsuario = TextEditingController();
+  var numeroDocumentoUsuario = TextEditingController();
   var codigoProducto = TextEditingController();
   var descripcionProducto = TextEditingController();
   var stock = TextEditingController();
   var cantidad = TextEditingController();
 
-  late TecnicoModel proveedorSelecionado;
   late ProductosModel productoSelecionado;
   List<String> columns = ["", "Codigo", "Descripcion", "Cantidad"];
 
@@ -44,7 +43,8 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
   @override
   Widget build(BuildContext context) {
     fechaRegistro.text = fechaHoy();
-
+    numeroDocumentoUsuario.text = LocalData.userLocal!.NumeroDocumento;
+    nombreUsuario.text = LocalData.userLocal!.NombreComplet;
     return Scaffold(
       backgroundColor: colorblanco(),
       body: Container(
@@ -56,18 +56,9 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  const Text(
-                    "Registrar Salida",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        setState(() {});
-                      },
-                      icon: const Icon(Icons.refresh))
-                ],
+              const Text(
+                "Registrar Salida",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               space(h: 30),
               fila1(),
@@ -161,6 +152,7 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
           space(w: 20),
           IconButton(
               onPressed: () async {
+                cargando(context);
                 await SearchProucto(setDetalleProducto, context).searchProveedor();
               },
               icon: const Icon(
@@ -193,6 +185,7 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
                 }
 
                 if (count) {
+                  alertMensaje(context, "Solo puede 1 vez por producto.");
                   return;
                 }
                 try {
@@ -201,15 +194,16 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
                   return;
                 }
                 if (int.parse(stock.text) < _cantidad) {
+                  alertMensaje(context, "El stock no puede ser menor a la cantidad.");
                   return;
                 }
                 setState(() {
                   if (total == 0) {
-                    numDocumento.text = docTecnico.text[0] +
-                        docTecnico.text[1] +
-                        nombreTecnico.text[0] +
-                        nombreTecnico.text[1] +
-                        nombreTecnico.text[2] +
+                    numDocumento.text = numeroDocumentoUsuario.text[0] +
+                        numeroDocumentoUsuario.text[1] +
+                        nombreUsuario.text[0] +
+                        nombreUsuario.text[1] +
+                        nombreUsuario.text[2] +
                         total.toString() +
                         DateTime.now().day.toString();
                   }
@@ -220,8 +214,8 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
                       numeroDocumento: numDocumento.text,
                       fechaRegistro: DateTime.now().toIso8601String(),
                       usuarioRegistro: "admin",
-                      documentoCliente: docTecnico.text,
-                      nombreCliente: nombreTecnico.text,
+                      documentoCliente: numeroDocumentoUsuario.text,
+                      nombreCliente: nombreUsuario.text,
                       cantidadProductos: _cantidad,
                       idProducto: productoSelecionado.IdProducto,
                       codigoProducto: codigoProducto.text,
@@ -251,35 +245,19 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MyTextFormField(
-            controller: docTecnico,
+            controller: numeroDocumentoUsuario,
             text: "Doc. Tecnico",
             readOnliny: true,
           ),
           space(w: 30),
           MyTextFormField(
-            controller: nombreTecnico,
+            controller: nombreUsuario,
             text: "Nombre Tecnico",
             readOnliny: true,
           ),
-          space(w: 20),
-          IconButton(
-              onPressed: () async {
-                await SearchTecnico(setDetalleProveedor, context).searchProveedor();
-              },
-              icon: const Icon(
-                Icons.search,
-                size: 40,
-              ))
         ],
       ),
     );
-  }
-
-  setDetalleProveedor(TecnicoModel model) {
-    proveedorSelecionado = model;
-    docTecnico.text = model.numeroDocumento!;
-    nombreTecnico.text = model.nombreCompleto!;
-    Navigator.pop(context);
   }
 
   setDetalleProducto(ProductosModel model) {

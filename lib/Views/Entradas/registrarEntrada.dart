@@ -4,11 +4,9 @@ import 'package:inventarioapp/Common/Search/SearchProveedor.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Common/gridBase.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
 import 'package:inventarioapp/Controllers/entradasController.dart';
 import 'package:inventarioapp/Controllers/productosController.dart';
-import 'package:inventarioapp/Controllers/proveedorController.dart';
 import 'package:inventarioapp/Models/entradasModel.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
 import 'package:inventarioapp/Models/proveedoresModel.dart';
@@ -45,6 +43,7 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
 
   ///variables locales
   int total = 0;
+
   @override
   Widget build(BuildContext context) {
     fechaRegistro.text = fechaHoy();
@@ -60,18 +59,9 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  const Text(
-                    "Registrar Entrada",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        setState(() {});
-                      },
-                      icon: const Icon(Icons.refresh))
-                ],
+              const Text(
+                "Registrar Entrada",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               space(h: 30),
               Fila1(),
@@ -240,11 +230,16 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
           space(w: 20),
           IconButton(
               onPressed: () {
+                int cantidadTemp = 0;
                 try {
-                  if (int.parse(cantidad.text) < 0) {
-                    return;
-                  }
+                  cantidadTemp = int.parse(cantidad.text);
                 } catch (e) {
+                  alertMensaje(context, "Cantidad Incorrecta.");
+                  return;
+                }
+
+                if (cantidadTemp > 0) {
+                  alertMensaje(context, "Cantidad debe ser mayor a 0");
                   return;
                 }
 
@@ -257,14 +252,7 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
 
                 for (var element in data) {
                   if (element.codigoProducto == codigoProducto.text) {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return alertMensaje("Solo puedes agregar un tipo de producto.");
-                      },
-                    ).whenComplete(() {
-                      return;
-                    });
+                    alertMensaje(context, "Solo puedes agregar un tipo de producto.");
                     return;
                   }
                 }
@@ -315,8 +303,11 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
           space(w: 20),
           IconButton(
               onPressed: () async {
+                cargando(context);
                 // ignore: use_build_context_synchronously
-                await SearchProveedor(setDetalleProveedor, context).searchProveedor();
+                await SearchProveedor(setDetalleProveedor, context)
+                    .searchProveedor()
+                    .whenComplete(() => Navigator.pop(context));
               },
               icon: const Icon(
                 Icons.search,

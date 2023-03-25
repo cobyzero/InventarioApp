@@ -4,12 +4,11 @@ import 'package:excel/excel.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:inventarioapp/Common/Grids/GridCargarProducto.dart';
+import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/baseVentana.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Common/gridBase.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
 import 'package:inventarioapp/Controllers/productosController.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
@@ -25,7 +24,7 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
   var archivo = TextEditingController();
   int maxcant = 0;
   int actualcant = 0;
-
+  List<String> columns = ["Codigo Producto", "Descripcion Producto", "Estado"];
   List<ProductosModel> lista = <ProductosModel>[];
   int cantiProductos = 0;
   @override
@@ -37,14 +36,9 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                const Text(
-                  "Cargar Producto",
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.refresh))
-              ],
+            const Text(
+              "Cargar Producto",
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             space(h: 20),
             fila1(),
@@ -80,17 +74,26 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
               },
             ),
             space(h: 20),
-            SizedBox(
-              width: double.infinity,
-              height: 600,
-              child: GridProducto(
-                data: lista.isEmpty ? [] : lista,
-              ),
-            ),
+            NewGridBase(columns: NewGridBase.getColumns(columns), rows: getRows(lista))
           ],
         ),
       )),
     );
+  }
+
+  getRows(List<ProductosModel> data) {
+    List<DataRow> rows = [];
+    for (var element in data) {
+      rows.add(DataRow(cells: [
+        DataCell(Text(element.Codigo)),
+        DataCell(Text(element.Descripcion)),
+        const DataCell(Text(
+          "Correcto",
+          style: TextStyle(color: Colors.green),
+        )),
+      ]));
+    }
+    return rows;
   }
 
   SingleChildScrollView fila1() {
@@ -104,6 +107,7 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
             controller: archivo,
             text: "Archivo",
             w: 400,
+            readOnliny: true,
           ),
           space(w: 20),
           BotonBase(
@@ -131,11 +135,10 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
 
                 if (excel.tables[table]!.maxCols != 4) {
                   // ignore: use_build_context_synchronously
-                  showDialog(
-                      context: context,
-                      builder: alertMensaje(
-                        "Columnas Invalidas",
-                      ));
+                  alertMensaje(
+                    context,
+                    "Columnas Invalidas",
+                  );
                   return;
                 }
 

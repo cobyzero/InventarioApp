@@ -4,7 +4,6 @@ import 'package:inventarioapp/Common/baseVentana.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Common/gridBase.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
 import 'package:inventarioapp/Controllers/proveedorController.dart';
 import 'package:inventarioapp/Models/proveedoresModel.dart';
@@ -95,13 +94,15 @@ class _ProveedoresPageState extends State<ProveedoresPage> {
             ),
             IconButton(
                 onPressed: () async {
+                  cargando(context);
                   setState(() {
                     data.clear();
                     numeroDocumento.text = "";
                     nombreCompleto.text = "";
                   });
                   productoSelecionado.IdProveedor = 0;
-                  List<ProveedoresModel> listaTemp = await ProveedorController.getProveedores();
+                  List<ProveedoresModel> listaTemp = await ProveedorController.getProveedores()
+                      .whenComplete(() => Navigator.pop(context));
 
                   setState(() {
                     data = listaTemp;

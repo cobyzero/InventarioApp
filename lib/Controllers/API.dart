@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class API {
+  static String webProduc = "www.cobyzero.somee.com";
   static String web = "localhost";
+
   static int port = 7010;
 
   static Uri getUri({required String path, Map<String, dynamic>? parameters}) {

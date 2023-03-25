@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/GraficoBase2.dart';
+import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/baseVentana.dart';
 import 'package:inventarioapp/Common/cardBase.dart';
 import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/GraficoBase.dart';
 import 'package:inventarioapp/Controllers/mainController.dart';
+import 'package:inventarioapp/Models/productosModel.dart';
 import 'package:inventarioapp/Models/usuariosModel.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,6 +18,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<ProductosModel> data = [];
+  int max = 20;
+  var listaColumns = ["Codigo", "Descripcion", "Longitud", "Almacen", "Stock Actual"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,13 +34,95 @@ class _HomePageState extends State<HomePage> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: [space(w: 20), GraficosBase(), GraficosBase2()],
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  space(w: 20),
+                  FutureBuilder(
+                    future: MainController.getGraficoEntradas(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Container(
+                            padding: const EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: const [
+                                BoxShadow(blurRadius: 10, color: Colors.grey, offset: Offset(5, 5))
+                              ],
+                            ),
+                            child: GraficosBase2(snapshot.data![0], snapshot.data![1]));
+                      } else {
+                        return Container(
+                            padding: const EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: const [
+                                BoxShadow(blurRadius: 10, color: Colors.grey, offset: Offset(5, 5))
+                              ],
+                            ),
+                            child: GraficosBase2([], []));
+                      }
+                    },
+                  ),
+                  Container(
+                      margin: const EdgeInsets.only(left: 30),
+                      width: 600,
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(boxShadow: const [
+                        BoxShadow(blurRadius: 10, color: Colors.grey, offset: Offset(5, 5))
+                      ], color: Colors.white, borderRadius: BorderRadius.circular(20)),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Productos con stock menor al limite ($max)",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.red),
+                          ),
+                          FutureBuilder(
+                            future: MainController.getProductosStock(max),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: NewGridBase(
+                                      columns: NewGridBase.getColumns(listaColumns),
+                                      rows: getRows(snapshot.data!)),
+                                );
+                              } else {
+                                return SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: NewGridBase(
+                                      columns: NewGridBase.getColumns(listaColumns), rows: []),
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      ))
+                ],
               ),
             )
           ],
         ),
       ),
     );
+  }
+
+  getRows(List<ProductosModel> data) {
+    List<DataRow> rows = [];
+    int count = 1;
+    for (var element in data) {
+      rows.add(DataRow(cells: [
+        DataCell(Text(element.Codigo)),
+        DataCell(Text(element.Descripcion)),
+        DataCell(Text(element.Longitud)),
+        DataCell(Text(element.Almacen)),
+        DataCell(Text(element.Stock.toString())),
+      ]));
+      count++;
+    }
+    return rows;
   }
 
   SingleChildScrollView cardsDatos() {
@@ -65,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                   CardBase(
                     cantidad: snapshot.data![3],
                     color: Colors.green,
-                    texto: "Tecnicos",
+                    texto: "Usuarios",
                   ),
                 ],
               );

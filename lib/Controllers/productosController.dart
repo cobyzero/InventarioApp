@@ -8,7 +8,13 @@ class ProductosController {
   static void setProductosList(List<ProductosModel> lista) async {
     Uri uri = API.getUri(path: "api/cargarProductos");
 
-    String json = jsonEncode(lista);
+    List<Map> map = [];
+
+    for (var element in lista) {
+      map.add(element.toJson());
+    }
+
+    String json = jsonEncode(map);
 
     await http.post(uri, body: json);
   }

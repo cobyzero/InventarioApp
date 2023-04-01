@@ -9,7 +9,6 @@ import 'package:inventarioapp/Controllers/salidasController.dart';
 import 'package:inventarioapp/LocalData/localData.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
 import 'package:inventarioapp/Models/salidasModel.dart';
-import 'package:inventarioapp/Models/tecnicosModel.dart';
 
 class RegistrarSalidaPage extends StatefulWidget {
   const RegistrarSalidaPage({super.key});
@@ -43,8 +42,8 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
   @override
   Widget build(BuildContext context) {
     fechaRegistro.text = fechaHoy();
-    numeroDocumentoUsuario.text = LocalData.userLocal!.NumeroDocumento;
-    nombreUsuario.text = LocalData.userLocal!.NombreComplet;
+    numeroDocumentoUsuario.text = LocalData.userLocal!.numeroDocumento!;
+    nombreUsuario.text = LocalData.userLocal!.nombreCompleto!;
     return Scaffold(
       backgroundColor: colorblanco(),
       body: Container(
@@ -176,18 +175,14 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
           space(w: 20),
           IconButton(
               onPressed: () {
-                bool count = false;
                 int _cantidad = 0;
                 for (var element in data) {
                   if (element.codigoProducto == productoSelecionado.Codigo) {
-                    count = true;
+                    alertMensaje(context, "Solo puede 1 vez por producto.");
+                    return;
                   }
                 }
 
-                if (count) {
-                  alertMensaje(context, "Solo puede 1 vez por producto.");
-                  return;
-                }
                 try {
                   _cantidad = int.parse(cantidad.text);
                 } catch (e) {

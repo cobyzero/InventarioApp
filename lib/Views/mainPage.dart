@@ -37,7 +37,16 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return const AlertDialog(
+                content: Text("Contacto: sebastianabalsalazar@gmail.com"),
+              );
+            },
+          );
+        },
         child: const Icon(Icons.message_outlined),
       ),
       backgroundColor: const Color(0xffF1F5F9),
@@ -49,7 +58,7 @@ class _MainPageState extends State<MainPage> {
               width: active ? 80 : 260,
               color: const Color(0xff111827),
               child: FutureBuilder(
-                future: MainController.getPermisos(LocalData.userLocal!.IdPermisos),
+                future: MainController.getPermisos(LocalData.userLocal!.idPermisos!),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     permisosModel = snapshot.data!;
@@ -83,7 +92,7 @@ class _MainPageState extends State<MainPage> {
                     child: Row(
                       children: [
                         Text(
-                          "Bienvenido denuevo, ${LocalData.userLocal!.NombreComplet}!",
+                          "Bienvenido denuevo, ${LocalData.userLocal!.nombreCompleto}!",
                           style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
                         ),
                       ],
@@ -205,7 +214,7 @@ class _MainPageState extends State<MainPage> {
               fun: () {
                 controller.jumpToPage(9);
               },
-              texto: "Tecnicos",
+              texto: "Usuarios",
               icon: Icons.groups,
             ),
           space(h: 10),

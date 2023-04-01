@@ -68,6 +68,7 @@ class _BuscarEntradaPageState extends State<BuscarEntradaPage> {
                           usuario.text.isEmpty ||
                           docProveedor.text.isEmpty ||
                           nombreProveedor.text.isEmpty) {
+                        alertMensaje(context, "No hay datos");
                         return;
                       }
                       var pdf = pw.Document();
@@ -146,6 +147,7 @@ class _BuscarEntradaPageState extends State<BuscarEntradaPage> {
         IconButton(
             onPressed: () async {
               if (numeroDocumento.text.isEmpty) {
+                alertMensaje(context, "No hay datos");
                 return;
               }
 

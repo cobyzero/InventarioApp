@@ -89,6 +89,7 @@ class _InventarioPageState extends State<InventarioPage> {
 
   Future<List<InventarioModel>> getData() async {
     List<ProductosModel> productos = await ProductosController.getProductos();
+
     List<InventarioModel> inventario = [];
     for (var element in productos) {
       List<EntradasModel> entradasList =
@@ -98,8 +99,11 @@ class _InventarioPageState extends State<InventarioPage> {
       List<SalidasModel> salidasList =
           await SalidasController.getSalidaForProducto(element.IdProducto);
       int salidas = salidasList.length;
-      inventario.add(InventarioModel(element.Codigo, element.Descripcion, element.Longitud,
-          element.Almacen, entradas, salidas, element.Stock));
+
+      if (entradas > 0 || salidas > 0) {
+        inventario.add(InventarioModel(element.Codigo, element.Descripcion, element.Longitud,
+            element.Almacen, entradas, salidas, element.Stock));
+      }
     }
 
     return inventario;

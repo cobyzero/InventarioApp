@@ -32,10 +32,12 @@ class SearchProveedor {
   }
 
   Future<void> searchProveedor() async {
-    dataProveedor = await ProveedorController.getProveedores();
+    dataProveedor =
+        await ProveedorController.getProveedores().whenComplete(() => Navigator.pop(context));
 
     // ignore: use_build_context_synchronously
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(

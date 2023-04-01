@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class API {
-  static String webProduc = "www.cobyzero.somee.com";
+  static String webProduc = "www.eAlemana.somee.com";
   static String web = "localhost";
 
   static int port = 7010;
 
   static Uri getUri({required String path, Map<String, dynamic>? parameters}) {
-    return Uri(scheme: "https", port: port, host: API.web, path: path, queryParameters: parameters);
+    return Uri(scheme: "http", host: API.webProduc, path: path, queryParameters: parameters);
   }
 
   static checkServer(BuildContext context) async {

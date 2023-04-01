@@ -48,18 +48,18 @@ class _LoginPageState extends State<LoginPage> {
                 size: 60,
               ),
               const Text(
-                "Sign in",
+                "Iniciar Sesion",
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               ),
               space(h: 40),
               MyTextFormField(
                 controller: email,
-                text: "Email*",
+                text: "Usuario*",
               ),
               space(h: 30),
               MyTextFormField(
                 controller: password,
-                text: "Password*",
+                text: "Contraseña*",
               ),
               space(
                 h: 40,
@@ -79,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: FadeIn(
                     duration: const Duration(seconds: 3),
-                    child: const Text("Sign in"),
+                    child: const Text("Ingresar"),
                   ))
             ],
           ),
@@ -92,8 +92,8 @@ class _LoginPageState extends State<LoginPage> {
     return Expanded(
         child: Container(
       height: MediaQuery.of(context).size.height,
-      padding: EdgeInsets.all(50),
-      color: Color(0xff1E293B),
+      padding: const EdgeInsets.all(50),
+      color: const Color(0xff1E293B),
       child: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                "Welcome to our Comumunity",
+                "Sistema Inventario App",
                 style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),
               ),
               space(h: 10),
@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               const Text(
-                "https://github.com/cobyzero",
+                "Codigo Fuente en: https://github.com/cobyzero",
                 style: TextStyle(
                   color: Colors.grey,
                 ),

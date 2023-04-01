@@ -2,17 +2,17 @@ import 'dart:convert';
 
 import 'package:inventarioapp/Controllers/API.dart';
 import 'package:inventarioapp/Models/salidasModel.dart';
-import 'package:inventarioapp/Models/tecnicosModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:inventarioapp/Models/usuariosModel.dart';
 
 class SalidasController {
-  static Future<List<TecnicoModel>> getTecnicos() async {
-    Uri uri = API.getUri(path: "api/getTecnico");
+  static Future<List<UsuariosModel>> getTecnicos() async {
+    Uri uri = API.getUri(path: "api/getUsuario");
 
     http.Response response = await http.get(uri);
 
-    List<TecnicoModel> posts =
-        (jsonDecode(response.body) as List).map((e) => TecnicoModel.fromJson(e)).toList();
+    List<UsuariosModel> posts =
+        (jsonDecode(response.body) as List).map((e) => UsuariosModel.fromJson(e)).toList();
 
     return posts;
   }
@@ -66,15 +66,15 @@ class SalidasController {
     return posts;
   }
 
-  static void putTecnico(TecnicoModel producto) async {
-    Uri uri = API.getUri(path: "api/putTecnico");
+  static void putTecnico(UsuariosModel producto) async {
+    Uri uri = API.getUri(path: "api/putUser");
 
     String json = jsonEncode(producto.toJson());
     await http.put(uri, body: json);
   }
 
   static void deleteTecnico(int id) async {
-    Uri uri = API.getUri(path: "api/deleteTecnico", parameters: {"id": id.toString()});
+    Uri uri = API.getUri(path: "api/deleteUser", parameters: {"id": id.toString()});
 
     await http.delete(uri);
   }

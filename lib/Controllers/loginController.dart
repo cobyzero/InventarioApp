@@ -17,7 +17,7 @@ class LoginController {
 
     UsuariosModel usuariosModel = UsuariosModel.fromJson(jsonDecode(response.body));
 
-    if (usuariosModel.IdUsuario == 0) {
+    if (usuariosModel.idUsuario == 0) {
       // ignore: use_build_context_synchronously
       showDialog(
         context: context,

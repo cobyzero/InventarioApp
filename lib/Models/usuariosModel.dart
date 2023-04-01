@@ -1,19 +1,36 @@
 class UsuariosModel {
-  int IdUsuario;
-  String NombreComplet;
-  String NombreUsuario;
-  String NumeroDocumento;
-  String Clave;
-  int IdPermisos;
+  int? idUsuario;
+  String? nombreCompleto;
+  String? nombreUsuario;
+  String? numeroDocumento;
+  String? clave;
+  int? idPermisos;
 
-  UsuariosModel(this.IdUsuario, this.NombreComplet, this.NombreUsuario, this.NumeroDocumento,
-      this.Clave, this.IdPermisos);
+  UsuariosModel(
+      {this.idUsuario,
+      this.nombreCompleto,
+      this.nombreUsuario,
+      this.numeroDocumento,
+      this.clave,
+      this.idPermisos});
 
-  UsuariosModel.fromJson(Map<String, dynamic> json)
-      : IdUsuario = json["idUsuario"],
-        NombreComplet = json["nombreCompleto"],
-        NombreUsuario = json["nombreUsuario"],
-        NumeroDocumento = json["numeroDocumento"],
-        Clave = json["clave"],
-        IdPermisos = json["idPermisos"];
+  UsuariosModel.fromJson(Map<String, dynamic> json) {
+    idUsuario = json['idUsuario'];
+    nombreCompleto = json['nombreCompleto'];
+    nombreUsuario = json['nombreUsuario'];
+    numeroDocumento = json['numeroDocumento'];
+    clave = json['clave'];
+    idPermisos = json['idPermisos'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['IdUsuario'] = this.idUsuario;
+    data['NombreCompleto'] = this.nombreCompleto;
+    data['NombreUsuario'] = this.nombreUsuario;
+    data['NumeroDocumento'] = this.numeroDocumento;
+    data['Clave'] = this.clave;
+    data['IdPermisos'] = this.idPermisos;
+    return data;
+  }
 }

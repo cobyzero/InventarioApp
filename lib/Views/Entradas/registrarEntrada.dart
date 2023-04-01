@@ -88,10 +88,12 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
                     w: 180,
                     fun: () {
                       if (data.isEmpty) {
+                        alertMensaje(context, "Debes ingresar minimo 1 entrada");
                         return;
                       }
 
                       if (numDocumento.text.isEmpty) {
+                        alertMensaje(context, "Ingresa numero de documento");
                         return;
                       }
 
@@ -153,7 +155,7 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
 
   getRows(List<EntradasModel> data) {
     List<DataRow> rows = [];
-    int count = 1;
+
     for (var element in data) {
       rows.add(DataRow(cells: [
         DataCell(IconButton(
@@ -171,7 +173,6 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
         DataCell(Text(element.longitudProducto!)),
         DataCell(Text(element.almacenProducto!)),
       ]));
-      count++;
     }
     return rows;
   }
@@ -199,12 +200,15 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
           space(w: 20),
           IconButton(
               onPressed: () async {
-                List<ProductosModel> dataProveedorTemp = await ProductosController.getProductos();
+                cargando(context);
+                List<ProductosModel> dataProveedorTemp = await ProductosController.getProductos()
+                    .whenComplete(() => Navigator.pop(context));
                 setState(() {
                   dataProducto = dataProveedorTemp;
                 });
                 // ignore: use_build_context_synchronously
                 showDialog(
+                  barrierDismissible: false,
                   context: context,
                   builder: (context) {
                     return AlertDialog(
@@ -238,8 +242,12 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
                   return;
                 }
 
-                if (cantidadTemp > 0) {
+                if (cantidadTemp <= 0) {
                   alertMensaje(context, "Cantidad debe ser mayor a 0");
+                  return;
+                }
+                if (numDocumento.text.isEmpty) {
+                  alertMensaje(context, "Ingrese numero de documento");
                   return;
                 }
 
@@ -305,9 +313,7 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
               onPressed: () async {
                 cargando(context);
                 // ignore: use_build_context_synchronously
-                await SearchProveedor(setDetalleProveedor, context)
-                    .searchProveedor()
-                    .whenComplete(() => Navigator.pop(context));
+                await SearchProveedor(setDetalleProveedor, context).searchProveedor();
               },
               icon: const Icon(
                 Icons.search,

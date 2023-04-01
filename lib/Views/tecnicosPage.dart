@@ -6,7 +6,7 @@ import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/textFormField.dart';
 import 'package:inventarioapp/Controllers/salidasController.dart';
-import 'package:inventarioapp/Models/tecnicosModel.dart';
+import 'package:inventarioapp/Models/usuariosModel.dart';
 
 class TecnicosPage extends StatefulWidget {
   const TecnicosPage({super.key});
@@ -19,11 +19,11 @@ class _ProveedoresPageState extends State<TecnicosPage> {
   var numeroDocumento = TextEditingController();
   var nombreCompleto = TextEditingController();
 
-  TecnicoModel productoSelecionado =
-      TecnicoModel(idCliente: 0, nombreCompleto: "", numeroDocumento: "");
+  UsuariosModel productoSelecionado =
+      UsuariosModel(idUsuario: 0, nombreCompleto: "", numeroDocumento: "");
   var columns = ["", "Numero Documento", "Nombre Completo"];
 
-  List<TecnicoModel> data = [];
+  List<UsuariosModel> data = [];
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class _ProveedoresPageState extends State<TecnicosPage> {
     );
   }
 
-  getRows(List<TecnicoModel> data) {
+  getRows(List<UsuariosModel> data) {
     List<DataRow> rows = [];
     int count = 1;
     for (var element in data) {
@@ -66,7 +66,7 @@ class _ProveedoresPageState extends State<TecnicosPage> {
     return rows;
   }
 
-  setDetalleProducto(TecnicoModel model) {
+  setDetalleProducto(UsuariosModel model) {
     productoSelecionado = model;
     numeroDocumento.text = model.numeroDocumento!;
     nombreCompleto.text = model.nombreCompleto!;
@@ -90,7 +90,7 @@ class _ProveedoresPageState extends State<TecnicosPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Text(
-              "Detalle Tecnico",
+              "Detalle Usuario",
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             IconButton(
@@ -100,8 +100,8 @@ class _ProveedoresPageState extends State<TecnicosPage> {
                     numeroDocumento.text = "";
                     nombreCompleto.text = "";
                   });
-                  productoSelecionado.idCliente = 0;
-                  List<TecnicoModel> listaTemp = await SalidasController.getTecnicos();
+                  productoSelecionado.idUsuario = 0;
+                  List<UsuariosModel> listaTemp = await SalidasController.getTecnicos();
 
                   setState(() {
                     data = listaTemp;
@@ -116,11 +116,12 @@ class _ProveedoresPageState extends State<TecnicosPage> {
         MyTextFormField(controller: nombreCompleto, text: "Nombre Completo"),
         space(h: 30),
         BotonBase(
-          icon: Icons.save,
-          texto: "Guardar",
-          w: 280,
-          fun: () {
-            if (productoSelecionado.idCliente! < 1) {
+            icon: Icons.save,
+            texto: "Guardar",
+            w: 280,
+            fun:
+                null /*() {
+            if (productoSelecionado.idUsuario! < 1) {
               return;
             }
 
@@ -129,21 +130,22 @@ class _ProveedoresPageState extends State<TecnicosPage> {
 
             SalidasController.putTecnico(productoSelecionado);
 
-            productoSelecionado.idCliente = 0;
+            productoSelecionado.idUsuario = 0;
             numeroDocumento.text = "";
             nombreCompleto.text = "";
-          },
-        ),
+          },*/
+            ),
         space(h: 10),
         BotonBase(
-          icon: Icons.delete,
-          texto: "Borrar",
-          w: 280,
-          fun: () {
-            if (productoSelecionado.idCliente! < 1) {
+            icon: Icons.delete,
+            texto: "Borrar",
+            w: 280,
+            fun:
+                null /*() {
+            if (productoSelecionado.idUsuario! < 1) {
               return;
             }
-            SalidasController.deleteTecnico(productoSelecionado.idCliente!);
+            SalidasController.deleteTecnico(productoSelecionado.idUsuario!);
 
             showDialog(
               context: context,
@@ -158,9 +160,9 @@ class _ProveedoresPageState extends State<TecnicosPage> {
             numeroDocumento.text = "";
             nombreCompleto.text = "";
 
-            productoSelecionado.idCliente = 0;
-          },
-        ),
+            productoSelecionado.idUsuario = 0;
+          },*/
+            ),
         space(h: 10),
         BotonBase(
           icon: Icons.clear,
@@ -170,7 +172,7 @@ class _ProveedoresPageState extends State<TecnicosPage> {
             numeroDocumento.text = "";
             nombreCompleto.text = "";
 
-            productoSelecionado.idCliente = 0;
+            productoSelecionado.idUsuario = 0;
           },
         )
       ],

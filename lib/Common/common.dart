@@ -31,6 +31,7 @@ alertMensaje(BuildContext context, String message) {
 
 cargando(BuildContext context) {
   showDialog(
+    barrierDismissible: false,
     context: context,
     builder: (context) {
       return AlertDialog(

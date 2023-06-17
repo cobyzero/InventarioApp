@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/baseVentana.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
-import 'package:inventarioapp/Common/colors.dart';
+import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Common/textFormField.dart';
-import 'package:inventarioapp/Controllers/salidasController.dart';
+import 'package:inventarioapp/Views/Widgets/textFormField.dart';
+import 'package:inventarioapp/ViewModels/salidasController.dart';
 import 'package:inventarioapp/Models/usuariosModel.dart';
 
-class TecnicosPage extends StatefulWidget {
-  const TecnicosPage({super.key});
+class ClientsView extends StatefulWidget {
+  const ClientsView({super.key});
 
   @override
-  State<TecnicosPage> createState() => _ProveedoresPageState();
+  State<ClientsView> createState() => _ProveedoresPageState();
 }
 
-class _ProveedoresPageState extends State<TecnicosPage> {
+class _ProveedoresPageState extends State<ClientsView> {
   var numeroDocumento = TextEditingController();
   var nombreCompleto = TextEditingController();
 
@@ -28,7 +28,7 @@ class _ProveedoresPageState extends State<TecnicosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorblanco(),
+      backgroundColor: bgColor,
       body: BaseVentana(
           fun: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

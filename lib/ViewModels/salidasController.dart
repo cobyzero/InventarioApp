@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:inventarioapp/Controllers/API.dart';
+import 'package:inventarioapp/ViewModels/API.dart';
 import 'package:inventarioapp/Models/salidasModel.dart';
 import 'package:http/http.dart' as http;
 import 'package:inventarioapp/Models/usuariosModel.dart';

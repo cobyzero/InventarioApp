@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
-import 'package:inventarioapp/Controllers/productosController.dart';
+import 'package:inventarioapp/ViewModels/productosController.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
 
 class SearchProucto {

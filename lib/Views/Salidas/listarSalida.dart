@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Controllers/salidasController.dart';
+import 'package:inventarioapp/ViewModels/salidasController.dart';
 import 'package:inventarioapp/Models/salidasModel.dart';
 
 class ListarSalidaPage extends StatefulWidget {

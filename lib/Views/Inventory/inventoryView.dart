@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Controllers/entradasController.dart';
-import 'package:inventarioapp/Controllers/productosController.dart';
-import 'package:inventarioapp/Controllers/salidasController.dart';
+import 'package:inventarioapp/ViewModels/entradasController.dart';
+import 'package:inventarioapp/ViewModels/productosController.dart';
+import 'package:inventarioapp/ViewModels/salidasController.dart';
 import 'package:inventarioapp/Models/entradasModel.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
 import 'package:inventarioapp/Models/salidasModel.dart';
 
-class InventarioPage extends StatefulWidget {
-  const InventarioPage({super.key});
+class InventoryView extends StatefulWidget {
+  const InventoryView({super.key});
 
   @override
-  State<InventarioPage> createState() => _InventarioPageState();
+  State<InventoryView> createState() => _InventoryViewState();
 }
 
-class _InventarioPageState extends State<InventarioPage> {
+class _InventoryViewState extends State<InventoryView> {
   List<String> columns = [
     "CodigoProducto",
     "Descripcion",
@@ -75,13 +75,13 @@ class _InventarioPageState extends State<InventarioPage> {
     List<DataRow> rows = [];
     for (var element in data) {
       rows.add(DataRow(cells: [
-        DataCell(Text(element.coditoProducto!)),
-        DataCell(Text(element.descripcion!)),
-        DataCell(Text(element.longitud!)),
-        DataCell(Text(element.almacen!)),
-        DataCell(Text(element.entradas.toString()!)),
-        DataCell(Text(element.salidas.toString()!)),
-        DataCell(Text(element.stock.toString()!)),
+        DataCell(Text(element.coditoProducto)),
+        DataCell(Text(element.descripcion)),
+        DataCell(Text(element.longitud)),
+        DataCell(Text(element.almacen)),
+        DataCell(Text(element.entradas.toString())),
+        DataCell(Text(element.salidas.toString())),
+        DataCell(Text(element.stock.toString())),
       ]));
     }
     return rows;

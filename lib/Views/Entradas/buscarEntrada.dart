@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/basePdf.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
-import 'package:inventarioapp/Common/colors.dart';
+import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Common/textFormField.dart';
-import 'package:inventarioapp/Controllers/entradasController.dart';
+import 'package:inventarioapp/Views/Widgets/textFormField.dart';
+import 'package:inventarioapp/ViewModels/entradasController.dart';
 import 'package:inventarioapp/Models/entradasModel.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -32,7 +32,7 @@ class _BuscarEntradaPageState extends State<BuscarEntradaPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorblanco(),
+      backgroundColor: bgColor,
       body: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(30),

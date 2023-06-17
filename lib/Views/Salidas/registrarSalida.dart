@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/Search/SearchProducto.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
-import 'package:inventarioapp/Common/colors.dart';
+import 'package:inventarioapp/UserData/UserData.dart';
+import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Common/textFormField.dart';
-import 'package:inventarioapp/Controllers/salidasController.dart';
-import 'package:inventarioapp/LocalData/localData.dart';
+import 'package:inventarioapp/Views/Widgets/textFormField.dart';
+import 'package:inventarioapp/ViewModels/salidasController.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
 import 'package:inventarioapp/Models/salidasModel.dart';
 
@@ -42,10 +42,10 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
   @override
   Widget build(BuildContext context) {
     fechaRegistro.text = fechaHoy();
-    numeroDocumentoUsuario.text = LocalData.userLocal!.numeroDocumento!;
-    nombreUsuario.text = LocalData.userLocal!.nombreCompleto!;
+    numeroDocumentoUsuario.text = UserData.usuariosModel!.numeroDocumento!;
+    nombreUsuario.text = UserData.usuariosModel!.nombreCompleto!;
     return Scaffold(
-      backgroundColor: colorblanco(),
+      backgroundColor: bgColor,
       body: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(30),

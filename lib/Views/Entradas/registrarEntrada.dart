@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/Search/SearchProveedor.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
-import 'package:inventarioapp/Common/colors.dart';
+import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Common/textFormField.dart';
-import 'package:inventarioapp/Controllers/entradasController.dart';
-import 'package:inventarioapp/Controllers/productosController.dart';
+import 'package:inventarioapp/Views/Widgets/textFormField.dart';
+import 'package:inventarioapp/ViewModels/entradasController.dart';
+import 'package:inventarioapp/ViewModels/productosController.dart';
 import 'package:inventarioapp/Models/entradasModel.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
 import 'package:inventarioapp/Models/proveedoresModel.dart';
@@ -49,7 +49,7 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
     fechaRegistro.text = fechaHoy();
 
     return Scaffold(
-      backgroundColor: colorblanco(),
+      backgroundColor: bgColor,
       body: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(30),

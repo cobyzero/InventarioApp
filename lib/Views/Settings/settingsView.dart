@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/baseVentana.dart';
-import 'package:inventarioapp/Common/colors.dart';
+import 'package:inventarioapp/Util/colors.dart';
 
-class ConfiguracionPage extends StatefulWidget {
-  const ConfiguracionPage({super.key});
+class SettingsView extends StatefulWidget {
+  const SettingsView({super.key});
 
   @override
-  State<ConfiguracionPage> createState() => _ConfiguracionPageState();
+  State<SettingsView> createState() => _SettingsViewState();
 }
 
-class _ConfiguracionPageState extends State<ConfiguracionPage> {
+class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorblanco(),
+      backgroundColor: bgColor,
       body: BaseVentana(
           fun: Column(
         children: [

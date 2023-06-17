@@ -2,23 +2,19 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:inventarioapp/Common/GraficoBase2.dart';
-import 'package:inventarioapp/Controllers/API.dart';
+import 'package:inventarioapp/ViewModels/API.dart';
 import 'package:inventarioapp/Models/permisosModel.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
 
-class MainController {
-  static Future<List<String>> getResquestEntradasCount() async {
+class MainService {
+  static Future<Map> getResquestEntradasCount() async {
     var uri = API.getUri(path: "api/count");
 
     http.Response response = await http.get(uri);
 
-    String listaS = response.body;
+    Map map = jsonDecode(response.body);
 
-    String listo = listaS.replaceAll("[", "").replaceAll("]", "");
-
-    List<String> list = listo.split(",");
-
-    return list;
+    return map;
   }
 
   static Future<List<ProductosModel>> getProductosStock(int max) async {

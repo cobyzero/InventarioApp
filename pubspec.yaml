@@ -34,6 +34,7 @@ dependencies:
   pdf:
   animate_do: ^3.0.2
   syncfusion_flutter_datagrid: ^20.4.53
+  provider:
   flutter:
     sdk: flutter 
 

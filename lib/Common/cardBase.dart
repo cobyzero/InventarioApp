@@ -5,7 +5,7 @@ class CardBase extends StatelessWidget {
   CardBase({super.key, required this.texto, required this.cantidad, required this.color});
 
   String texto;
-  String cantidad;
+  int cantidad;
   Color color;
 
   @override
@@ -35,7 +35,7 @@ class CardBase extends StatelessWidget {
             Column(
               children: [
                 Text(
-                  cantidad,
+                  cantidad.toString(),
                   style: TextStyle(fontSize: 70, color: color, fontWeight: FontWeight.bold),
                 ),
               ],

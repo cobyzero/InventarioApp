@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Controllers/entradasController.dart';
+import 'package:inventarioapp/ViewModels/entradasController.dart';
 import 'package:inventarioapp/Models/entradasModel.dart';
 
 class ListarEntradaPage extends StatefulWidget {

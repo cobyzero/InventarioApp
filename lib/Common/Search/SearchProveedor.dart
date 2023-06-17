@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
-import 'package:inventarioapp/Controllers/proveedorController.dart';
+import 'package:inventarioapp/ViewModels/proveedorController.dart';
 import 'package:inventarioapp/Models/proveedoresModel.dart';
 
 class SearchProveedor {

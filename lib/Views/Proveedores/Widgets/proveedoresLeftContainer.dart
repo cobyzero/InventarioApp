@@ -1,87 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
-import 'package:inventarioapp/Common/baseVentana.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
-import 'package:inventarioapp/Common/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Common/textFormField.dart';
-import 'package:inventarioapp/Controllers/proveedorController.dart';
 import 'package:inventarioapp/Models/proveedoresModel.dart';
+import 'package:inventarioapp/ViewModels/proveedorController.dart';
+import 'package:inventarioapp/Views/Widgets/textFormField.dart';
 
-class ProveedoresPage extends StatefulWidget {
-  const ProveedoresPage({super.key});
+class ProveedoresLeftContainer extends StatefulWidget {
+  const ProveedoresLeftContainer({super.key});
 
   @override
-  State<ProveedoresPage> createState() => _ProveedoresPageState();
+  State<ProveedoresLeftContainer> createState() => _ProveedoresLeftContainerState();
 }
 
-class _ProveedoresPageState extends State<ProveedoresPage> {
+class _ProveedoresLeftContainerState extends State<ProveedoresLeftContainer> {
+  ProveedoresModel productoSelecionado = ProveedoresModel(0, "", "");
   var numeroDocumento = TextEditingController();
   var nombreCompleto = TextEditingController();
 
-  ProveedoresModel productoSelecionado = ProveedoresModel(0, "", "");
-  var columns = ["", "Numero Documento", "Nombre Completo"];
-
-  List<ProveedoresModel> data = [];
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: colorblanco(),
-      body: BaseVentana(
-          fun: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          leftColumn(),
-          space(w: 20),
-          lineaContainer(w: 2, h: double.infinity),
-          space(w: 40),
-          Expanded(
-              child: NewGridBase(
-            columns: getColumns(),
-            rows: getRows(data),
-          ))
-        ],
-      )),
-    );
-  }
-
-  getRows(List<ProveedoresModel> data) {
-    List<DataRow> rows = [];
-    int count = 1;
-    for (var element in data) {
-      rows.add(DataRow(cells: [
-        DataCell(TextButton(
-          child: Text(count.toString()),
-          onPressed: () {
-            setDetalleProducto(element);
-          },
-        )),
-        DataCell(Text(element.NumeroDocumento)),
-        DataCell(Text(element.NombreCompleto)),
-      ]));
-      count++;
-    }
-    return rows;
-  }
-
-  setDetalleProducto(ProveedoresModel model) {
-    productoSelecionado = model;
-    numeroDocumento.text = model.NumeroDocumento;
-    nombreCompleto.text = model.NombreCompleto;
-  }
-
-  getColumns() {
-    List<DataColumn> columnsTemp = [];
-
-    for (var element in columns) {
-      columnsTemp.add(DataColumn(label: Text(element)));
-    }
-
-    return columnsTemp;
-  }
-
-  Column leftColumn() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -96,16 +33,16 @@ class _ProveedoresPageState extends State<ProveedoresPage> {
                 onPressed: () async {
                   cargando(context);
                   setState(() {
-                    data.clear();
-                    numeroDocumento.text = "";
-                    nombreCompleto.text = "";
+                    // data.clear();
+                    // numeroDocumento.text = "";
+                    // nombreCompleto.text = "";
                   });
                   productoSelecionado.IdProveedor = 0;
                   List<ProveedoresModel> listaTemp = await ProveedorController.getProveedores()
                       .whenComplete(() => Navigator.pop(context));
 
                   setState(() {
-                    data = listaTemp;
+                    // data = listaTemp;
                   });
                 },
                 icon: Icon(Icons.refresh))

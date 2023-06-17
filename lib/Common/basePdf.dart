@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Models/entradasModel.dart';
-import 'package:inventarioapp/Models/productosModel.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
-import 'package:inventarioapp/Common/colors.dart';
+import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Common/textFormField.dart';
-import 'package:inventarioapp/Controllers/salidasController.dart';
+import 'package:inventarioapp/Views/Widgets/textFormField.dart';
+import 'package:inventarioapp/ViewModels/salidasController.dart';
 import 'package:inventarioapp/Models/salidasModel.dart';
 
 class BuscarSalidaPage extends StatefulWidget {
@@ -27,7 +27,7 @@ class _BuscarSalidaPageState extends State<BuscarSalidaPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorblanco(),
+      backgroundColor: bgColor,
       body: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(30),

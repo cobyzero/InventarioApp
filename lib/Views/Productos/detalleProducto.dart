@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/baseVentana.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
-import 'package:inventarioapp/Common/colors.dart';
+import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Common/textFormField.dart';
-import 'package:inventarioapp/Controllers/productosController.dart';
+import 'package:inventarioapp/Views/Widgets/textFormField.dart';
+import 'package:inventarioapp/ViewModels/productosController.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
 
 class DetalleProducto extends StatefulWidget {
@@ -27,7 +27,7 @@ class _DetalleProductoState extends State<DetalleProducto> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorblanco(),
+      backgroundColor: bgColor,
       body: BaseVentana(
           fun: SingleChildScrollView(
         scrollDirection: Axis.horizontal,

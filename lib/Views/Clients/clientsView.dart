@@ -6,7 +6,7 @@ import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Views/Widgets/textFormField.dart';
 import 'package:inventarioapp/ViewModels/salidasController.dart';
-import 'package:inventarioapp/Models/usuariosModel.dart';
+import 'package:inventarioapp/Features/Auth/Domain/Entitys/user_entity.dart';
 
 class ClientsView extends StatefulWidget {
   const ClientsView({super.key});
@@ -19,11 +19,18 @@ class _ProveedoresPageState extends State<ClientsView> {
   var numeroDocumento = TextEditingController();
   var nombreCompleto = TextEditingController();
 
-  UsuariosModel productoSelecionado =
-      UsuariosModel(idUsuario: 0, nombreCompleto: "", numeroDocumento: "");
+  UserEntity productoSelecionado = UserEntity(
+    idUsuario: 0,
+    nombreCompleto: "",
+    numeroDocumento: "",
+    nombreUsuario: '',
+    clave: '',
+    idPermisos: 0,
+  );
+
   var columns = ["", "Numero Documento", "Nombre Completo"];
 
-  List<UsuariosModel> data = [];
+  List<UserEntity> data = [];
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +54,7 @@ class _ProveedoresPageState extends State<ClientsView> {
     );
   }
 
-  getRows(List<UsuariosModel> data) {
+  getRows(List<UserEntity> data) {
     List<DataRow> rows = [];
     int count = 1;
     for (var element in data) {
@@ -58,18 +65,18 @@ class _ProveedoresPageState extends State<ClientsView> {
             setDetalleProducto(element);
           },
         )),
-        DataCell(Text(element.numeroDocumento!)),
-        DataCell(Text(element.nombreCompleto!)),
+        DataCell(Text(element.numeroDocumento)),
+        DataCell(Text(element.nombreCompleto)),
       ]));
       count++;
     }
     return rows;
   }
 
-  setDetalleProducto(UsuariosModel model) {
+  setDetalleProducto(UserEntity model) {
     productoSelecionado = model;
-    numeroDocumento.text = model.numeroDocumento!;
-    nombreCompleto.text = model.nombreCompleto!;
+    numeroDocumento.text = model.numeroDocumento;
+    nombreCompleto.text = model.nombreCompleto;
   }
 
   getColumns() {
@@ -100,14 +107,14 @@ class _ProveedoresPageState extends State<ClientsView> {
                     numeroDocumento.text = "";
                     nombreCompleto.text = "";
                   });
-                  productoSelecionado.idUsuario = 0;
-                  List<UsuariosModel> listaTemp = await SalidasController.getTecnicos();
+                  productoSelecionado = productoSelecionado.copyWith(idUsuario: 0);
+                  List<UserEntity> listaTemp = await SalidasController.getTecnicos();
 
                   setState(() {
                     data = listaTemp;
                   });
                 },
-                icon: Icon(Icons.refresh))
+                icon: const Icon(Icons.refresh))
           ],
         ),
         space(h: 30),
@@ -172,7 +179,7 @@ class _ProveedoresPageState extends State<ClientsView> {
             numeroDocumento.text = "";
             nombreCompleto.text = "";
 
-            productoSelecionado.idUsuario = 0;
+            productoSelecionado = productoSelecionado.copyWith(idUsuario: 0);
           },
         )
       ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quickalert/quickalert.dart';
 
 space({double h = 0, double w = 0}) {
   return SizedBox(
@@ -11,7 +12,7 @@ fechaHoy() {
   return "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
 }
 
-lineaContainer({double w: double.infinity, double h = 2}) {
+lineaContainer({double w = double.infinity, double h = 2}) {
   return Container(
     width: w,
     height: h,
@@ -29,22 +30,30 @@ alertMensaje(BuildContext context, String message) {
   );
 }
 
-cargando(BuildContext context) {
-  showDialog(
+errorAlertMessage(BuildContext context, String? error) {
+  QuickAlert.show(
     barrierDismissible: false,
     context: context,
-    builder: (context) {
-      return AlertDialog(
-        content: SizedBox(
-          width: 100,
-          height: 100,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [const Text("Loading.."), space(h: 10), const CircularProgressIndicator()],
-          ),
-        ),
-      );
-    },
+    type: QuickAlertType.error,
+    text: error,
+  );
+}
+
+Future<void> successAlertMessage(BuildContext context, String? message) async {
+  await QuickAlert.show(
+    barrierDismissible: false,
+    context: context,
+    type: QuickAlertType.success,
+    text: message,
+    showConfirmBtn: false,
+    autoCloseDuration: const Duration(seconds: 2),
+  );
+}
+
+cargando(BuildContext context) {
+  QuickAlert.show(
+    barrierDismissible: false,
+    context: context,
+    type: QuickAlertType.loading,
   );
 }

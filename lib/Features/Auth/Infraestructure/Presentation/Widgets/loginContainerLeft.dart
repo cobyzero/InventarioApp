@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Features/Auth/Application/Bloc/login_bloc/login_bloc.dart';
+import 'package:inventarioapp/Features/User/Application/Blocs/user_bloc/user_bloc.dart';
 import 'package:inventarioapp/Views/Widgets/textFormField.dart';
 
 class LoginContainerLeft extends StatelessWidget {
@@ -14,21 +16,34 @@ class LoginContainerLeft extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<LoginBloc, LoginState>(
-      listener: (context, state) async {
-        if (state is LoginAuthenticate) {
-          Navigator.pop(context);
-          await successAlertMessage(context, "Ingreso correctamente").whenComplete(
-            () => context.go("/main"),
-          );
-        }
-        if (state is LoginError) {
-          // ignore: use_build_context_synchronously
-          Navigator.pop(context);
-          // ignore: use_build_context_synchronously
-          errorAlertMessage(context, state.error);
-        }
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<LoginBloc, LoginState>(
+          listener: (context, state) async {
+            if (state is LoginAuthenticate) {
+              Navigator.pop(context);
+              await successAlertMessage(context, "Ingreso correctamente").whenComplete(
+                () => context
+                    .read<UserBloc>()
+                    .add(UserEventLoadedUser(FirebaseAuth.instance.currentUser!.uid)),
+              );
+            }
+            if (state is LoginError) {
+              // ignore: use_build_context_synchronously
+              Navigator.pop(context);
+              // ignore: use_build_context_synchronously
+              errorAlertMessage(context, state.error);
+            }
+          },
+        ),
+        BlocListener<UserBloc, UserState>(
+          listener: (context, state) {
+            if (state is UserComplete) {
+              context.go("/main");
+            }
+          },
+        ),
+      ],
       child: Expanded(
           child: Container(
         padding: const EdgeInsets.all(50),

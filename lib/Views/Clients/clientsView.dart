@@ -6,7 +6,7 @@ import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Views/Widgets/textFormField.dart';
 import 'package:inventarioapp/ViewModels/salidasController.dart';
-import 'package:inventarioapp/Features/Auth/Domain/Entitys/user_entity.dart';
+import 'package:inventarioapp/Features/User/Domain/Entitys/user_entity.dart';
 
 class ClientsView extends StatefulWidget {
   const ClientsView({super.key});

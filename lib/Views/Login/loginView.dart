@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:inventarioapp/Features/Auth/Infraestructure/Presentation/Widgets/loginContainerLeft.dart';
-import 'package:inventarioapp/Features/Auth/Infraestructure/Presentation/Widgets/loginContainerRight.dart';
+import 'package:inventarioapp/Views/Login/Widgets/loginContainerLeft.dart';
+import 'package:inventarioapp/Views/Login/Widgets/loginContainerRight.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class LoginView extends StatelessWidget {
+  const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {

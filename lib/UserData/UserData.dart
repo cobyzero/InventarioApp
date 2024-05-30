@@ -1,5 +1,5 @@
-import 'package:inventarioapp/Features/Auth/Domain/Entitys/user_entity.dart';
+import 'package:inventarioapp/Models/usuariosModel.dart';
 
 class UserData {
-  static UserEntity? usuariosModel;
+  static UsuariosModel? usuariosModel;
 }

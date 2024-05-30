@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:inventarioapp/Features/Auth/Domain/Entitys/user_entity.dart';
+import 'package:inventarioapp/Models/usuariosModel.dart';
 import 'package:inventarioapp/UserData/UserData.dart';
 
 class LoginService {
-  UserEntity usuariosModel;
+  UsuariosModel usuariosModel;
   BuildContext context;
 
   LoginService(this.usuariosModel, this.context);

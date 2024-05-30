@@ -1,18 +1,18 @@
 import 'dart:convert';
 
-import 'package:inventarioapp/Features/Auth/Domain/Entitys/user_entity.dart';
 import 'package:inventarioapp/ViewModels/API.dart';
 import 'package:inventarioapp/Models/salidasModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:inventarioapp/Models/usuariosModel.dart';
 
 class SalidasController {
-  static Future<List<UserEntity>> getTecnicos() async {
+  static Future<List<UsuariosModel>> getTecnicos() async {
     Uri uri = API.getUri(path: "api/getUsuario");
 
     http.Response response = await http.get(uri);
 
-    List<UserEntity> posts =
-        (jsonDecode(response.body) as List).map((e) => UserEntity.fromJson(e)).toList();
+    List<UsuariosModel> posts =
+        (jsonDecode(response.body) as List).map((e) => UsuariosModel.fromJson(e)).toList();
 
     return posts;
   }
@@ -66,7 +66,7 @@ class SalidasController {
     return posts;
   }
 
-  static void putTecnico(UserEntity producto) async {
+  static void putTecnico(UsuariosModel producto) async {
     Uri uri = API.getUri(path: "api/putUser");
 
     String json = jsonEncode(producto.toJson());

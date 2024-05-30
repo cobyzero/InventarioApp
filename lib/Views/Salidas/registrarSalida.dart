@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/Search/SearchProducto.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
-import 'package:inventarioapp/Features/Auth/Application/Bloc/login_bloc/login_bloc.dart';
+import 'package:inventarioapp/UserData/UserData.dart';
 import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Views/Widgets/textFormField.dart';
@@ -42,11 +41,9 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
 
   @override
   Widget build(BuildContext context) {
-    final userState = context.read<LoginBloc>().state as LoginAuthenticate;
-
     fechaRegistro.text = fechaHoy();
-    // numeroDocumentoUsuario.text = userState.user.numeroDocumento;
-    // nombreUsuario.text = userState.user.nombreCompleto;
+    numeroDocumentoUsuario.text = UserData.usuariosModel!.numeroDocumento!;
+    nombreUsuario.text = UserData.usuariosModel!.nombreCompleto!;
     return Scaffold(
       backgroundColor: bgColor,
       body: Container(

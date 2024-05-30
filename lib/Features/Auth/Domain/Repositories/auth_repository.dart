@@ -1,3 +1,5 @@
+import 'package:inventarioapp/Features/Auth/Domain/Entitys/user_entity.dart';
+
 abstract class AuthRepository {
-  Future<String> login(String username, String password);
+  Future<UserEntity> login(String username, String password);
 }

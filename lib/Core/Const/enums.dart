@@ -1,4 +1,0 @@
-enum MainMenuStatus {
-  open,
-  close,
-}

@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:inventarioapp/Features/Auth/Infraestructure/Presentation/Screens/login_screen.dart';
-import 'package:inventarioapp/Features/Main/Infraestructure/Presentation/Screens/main_screen.dart';
+import 'package:inventarioapp/Views/Main/mainPage.dart';
 
 GoRouter goRoute = GoRouter(
   initialLocation: "/login",
@@ -11,7 +11,7 @@ GoRouter goRoute = GoRouter(
     ),
     GoRoute(
       path: "/main",
-      builder: (context, state) => MainScreen(),
+      builder: (context, state) => MainView(),
     ),
   ],
 );

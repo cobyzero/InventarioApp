@@ -11,7 +11,7 @@ fechaHoy() {
   return "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}";
 }
 
-lineaContainer({double w: double.infinity, double h = 2}) {
+lineaContainer({double w=  double.infinity, double h = 2}) {
   return Container(
     width: w,
     height: h,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inventarioapp/Providers/providerMain.dart';
+import 'package:get/get.dart';
 import 'package:inventarioapp/routes.dart';
-import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 void main() => runApp(const MyApp());
 
@@ -10,17 +10,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => ProviderMain(),
-        )
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: "login",
-        routes: routesApp(),
-      ),
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          initialRoute: "/login",
+          getPages: getRouter,
+        );
+      },
     );
   }
 }

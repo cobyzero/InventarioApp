@@ -30,7 +30,14 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
 
   ///Requerimientos para el DataTable [Entradas]
   late EntradasModel entradaSelecionado;
-  var columns = ["", "Codigo", "Descripcion", "Cantidad", "Longitud", "Almacen"];
+  var columns = [
+    "",
+    "Codigo",
+    "Descripcion",
+    "Cantidad",
+    "Longitud",
+    "Almacen"
+  ];
   List<EntradasModel> data = [];
 
   ///Requerimientos para el DataTable [Proveedores]
@@ -54,7 +61,8 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
         width: double.infinity,
         padding: const EdgeInsets.all(30),
         margin: const EdgeInsets.all(10),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(20)),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +96,8 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
                     w: 180,
                     fun: () {
                       if (data.isEmpty) {
-                        alertMensaje(context, "Debes ingresar minimo 1 entrada");
+                        alertMensaje(
+                            context, "Debes ingresar minimo 1 entrada");
                         return;
                       }
 
@@ -196,13 +205,16 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
           ),
           space(w: 30),
           MyTextFormField(
-              controller: descripcionProducto, text: "Descripcion Producto", readOnliny: true),
+              controller: descripcionProducto,
+              text: "Descripcion Producto",
+              readOnliny: true),
           space(w: 20),
           IconButton(
               onPressed: () async {
                 cargando(context);
-                List<ProductosModel> dataProveedorTemp = await ProductosController.getProductos()
-                    .whenComplete(() => Navigator.pop(context));
+                List<ProductosModel> dataProveedorTemp =
+                    await ProductosController.getProductos()
+                        .whenComplete(() => Navigator.pop(context));
                 setState(() {
                   dataProducto = dataProveedorTemp;
                 });
@@ -228,7 +240,6 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
           MyTextFormField(
             controller: cantidad,
             text: "Cantidad",
-            w: 100,
             type: TextInputType.number,
           ),
           space(w: 20),
@@ -260,7 +271,8 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
 
                 for (var element in data) {
                   if (element.codigoProducto == codigoProducto.text) {
-                    alertMensaje(context, "Solo puedes agregar un tipo de producto.");
+                    alertMensaje(
+                        context, "Solo puedes agregar un tipo de producto.");
                     return;
                   }
                 }
@@ -313,7 +325,8 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
               onPressed: () async {
                 cargando(context);
                 // ignore: use_build_context_synchronously
-                await SearchProveedor(setDetalleProveedor, context).searchProveedor();
+                await SearchProveedor(setDetalleProveedor, context)
+                    .searchProveedor();
               },
               icon: const Icon(
                 Icons.search,

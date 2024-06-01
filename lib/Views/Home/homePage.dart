@@ -5,6 +5,7 @@ import 'package:inventarioapp/Models/productosModel.dart';
 import 'package:inventarioapp/Views/Home/Widgets/homeCardData.dart';
 import 'package:inventarioapp/Views/Home/Widgets/homeGraficoData.dart';
 import 'package:inventarioapp/Views/Home/Widgets/homeStockLimit.dart';
+import 'package:inventarioapp/core/util/palette.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -14,7 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: Palette.background,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

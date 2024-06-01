@@ -1,10 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:inventarioapp/Views/Login/loginView.dart';
-import 'package:inventarioapp/Views/Main/mainPage.dart';
+import 'package:get/get.dart';
+import 'package:inventarioapp/features/auth/controllers/auth_binding.dart';
+import 'package:inventarioapp/features/auth/views/login_view.dart';
+import 'package:inventarioapp/features/main/controllers/main_binding.dart';
+import 'package:inventarioapp/features/main/views/main_view.dart';
 
-Map<String, WidgetBuilder> routesApp() {
-  return {
-    "login": (context) => const LoginView(),
-    "main": (context) => MainView(),
-  };
-}
+final getRouter = <GetPage>[
+  GetPage(
+    name: "/login",
+    page: () => const LoginView(),
+    binding: AuthBinding(),
+  ),
+  GetPage(
+    name: "/main",
+    page: () => MainView(),
+    binding: MainBinding(),
+  ),
+];

@@ -62,8 +62,10 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
               texto: "Descargar Plantilla",
               w: 200,
               fun: () async {
-                ByteData data = await rootBundle.load('assets/PlantillaProductos.xlsx');
-                var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+                ByteData data =
+                    await rootBundle.load('assets/PlantillaProductos.xlsx');
+                var bytes = data.buffer
+                    .asUint8List(data.offsetInBytes, data.lengthInBytes);
 
                 print(data);
                 var directory = await FilePicker.platform.getDirectoryPath();
@@ -74,7 +76,8 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
               },
             ),
             space(h: 20),
-            NewGridBase(columns: NewGridBase.getColumns(columns), rows: getRows(lista))
+            NewGridBase(
+                columns: NewGridBase.getColumns(columns), rows: getRows(lista))
           ],
         ),
       )),
@@ -106,7 +109,6 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
           MyTextFormField(
             controller: archivo,
             text: "Archivo",
-            w: 400,
             readOnliny: true,
           ),
           space(w: 20),
@@ -153,8 +155,13 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
                     datos.add(excel.tables[table]!.rows[i][e]!.value);
                   }
 
-                  listaTemp.add(ProductosModel(0, datos[0].toString(), datos[1].toString(),
-                      datos[2].toString(), datos[3].toString(), 0));
+                  listaTemp.add(ProductosModel(
+                      0,
+                      datos[0].toString(),
+                      datos[1].toString(),
+                      datos[2].toString(),
+                      datos[3].toString(),
+                      0));
 
                   setState(() {
                     actualcant++;

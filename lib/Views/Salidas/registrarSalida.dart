@@ -50,7 +50,8 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
         width: double.infinity,
         padding: const EdgeInsets.all(30),
         margin: const EdgeInsets.all(10),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(20)),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +69,9 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
               lineaContainer(),
               space(h: 20),
               //Expanded(child: Text("dasd"))
-              NewGridBase(columns: NewGridBase.getColumns(columns), rows: getRows(data)),
+              NewGridBase(
+                  columns: NewGridBase.getColumns(columns),
+                  rows: getRows(data)),
               space(h: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -152,7 +155,8 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
           IconButton(
               onPressed: () async {
                 cargando(context);
-                await SearchProucto(setDetalleProducto, context).searchProveedor();
+                await SearchProucto(setDetalleProducto, context)
+                    .searchProveedor();
               },
               icon: const Icon(
                 Icons.search,
@@ -163,14 +167,12 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
             controller: stock,
             text: "Stock",
             readOnliny: true,
-            w: 100,
           ),
           space(w: 30),
           MyTextFormField(
             controller: cantidad,
             text: "Cantidad",
             type: TextInputType.number,
-            w: 100,
           ),
           space(w: 20),
           IconButton(
@@ -189,7 +191,8 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
                   return;
                 }
                 if (int.parse(stock.text) < _cantidad) {
-                  alertMensaje(context, "El stock no puede ser menor a la cantidad.");
+                  alertMensaje(
+                      context, "El stock no puede ser menor a la cantidad.");
                   return;
                 }
                 setState(() {

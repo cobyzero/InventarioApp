@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Common/miniBotonMenu.dart';
 import 'package:inventarioapp/Models/permisosModel.dart';
-import 'package:inventarioapp/Providers/providerMain.dart';
 import 'package:inventarioapp/Views/Main/Widgets/mainMenuWidget.dart';
-import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class MainMenuClose extends StatelessWidget {
   PageController controller;
   PermisosModel permisosModel;
   MainMenuWidget mainMenuWidget;
-  late ProviderMain providerMain;
   MainMenuClose(
       {super.key,
       required this.controller,
@@ -19,14 +16,11 @@ class MainMenuClose extends StatelessWidget {
       required this.permisosModel});
   @override
   Widget build(BuildContext context) {
-    providerMain = Provider.of<ProviderMain>(context);
     return SingleChildScrollView(
       child: Column(
         children: [
           IconButton(
-              onPressed: () {
-                providerMain.activeView = true;
-              },
+              onPressed: () {},
               icon: const Icon(
                 Icons.menu,
                 color: Colors.white,

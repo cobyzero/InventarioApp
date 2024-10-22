@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/botonMenu.dart';
 import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Models/permisosModel.dart';
-import 'package:inventarioapp/Providers/providerMain.dart';
 import 'package:inventarioapp/Views/Main/Widgets/mainMenuWidget.dart';
-import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class MainMenuOpen extends StatelessWidget {
   PageController controller;
   PermisosModel permisosModel;
   MainMenuWidget mainMenuWidget;
-  late ProviderMain providerMain;
 
   MainMenuOpen(
       {super.key,
@@ -20,8 +17,6 @@ class MainMenuOpen extends StatelessWidget {
       required this.permisosModel});
   @override
   Widget build(BuildContext context) {
-    providerMain = Provider.of<ProviderMain>(context);
-
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -38,9 +33,7 @@ class MainMenuOpen extends StatelessWidget {
                     size: 30,
                   )),
               IconButton(
-                  onPressed: () {
-                    providerMain.activeView = false;
-                  },
+                  onPressed: () {},
                   icon: const Icon(
                     Icons.menu,
                     color: Colors.white,

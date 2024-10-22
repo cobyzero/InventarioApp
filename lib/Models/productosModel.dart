@@ -1,25 +1,37 @@
 class ProductosModel {
-  int IdProducto;
-  String Codigo;
-  String Descripcion;
-  String Longitud;
-  String Almacen;
-  int Stock;
-  ProductosModel(
-      this.IdProducto, this.Codigo, this.Descripcion, this.Longitud, this.Almacen, this.Stock);
+  int idProducto;
+  String codigo;
+  String descripcion;
+  String longitud;
+  String almacen;
+  int stock;
+  ProductosModel({
+    required this.idProducto,
+    required this.codigo,
+    required this.descripcion,
+    required this.longitud,
+    required this.almacen,
+    required this.stock,
+  });
 
   Map<String, dynamic> toJson() => {
-        'IdProducto': IdProducto,
-        'Codigo': Codigo,
-        'Descripcion': Descripcion,
-        'Longitud': Longitud,
-        'Almacen': Almacen,
-        'Stock': Stock
+        'IdProducto': idProducto,
+        'Codigo': codigo,
+        'Descripcion': descripcion,
+        'Longitud': longitud,
+        'Almacen': almacen,
+        'Stock': stock
       };
 
   static ProductosModel fromJson(json) {
-    ProductosModel p = ProductosModel(json["idProducto"], json["codigo"], json["descripcion"],
-        json["longitud"], json["almacen"], json["stock"]);
+    ProductosModel p = ProductosModel(
+      idProducto: json["idProducto"],
+      codigo: json["codigo"],
+      descripcion: json["descripcion"],
+      longitud: json["longitud"],
+      almacen: json["almacen"],
+      stock: json["stock"],
+    );
     return p;
   }
 }

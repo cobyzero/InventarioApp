@@ -7,11 +7,11 @@ import 'package:flutter/services.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/baseVentana.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
-import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Views/Widgets/textFormField.dart';
-import 'package:inventarioapp/ViewModels/productosController.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
+import 'package:inventarioapp/Util/colors.dart';
+import 'package:inventarioapp/ViewModels/productosController.dart';
+import 'package:inventarioapp/Views/Widgets/textFormField.dart';
 
 class CargarProductoPage extends StatefulWidget {
   const CargarProductoPage({super.key});
@@ -62,8 +62,10 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
               texto: "Descargar Plantilla",
               w: 200,
               fun: () async {
-                ByteData data = await rootBundle.load('assets/PlantillaProductos.xlsx');
-                var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+                ByteData data =
+                    await rootBundle.load('assets/PlantillaProductos.xlsx');
+                var bytes = data.buffer
+                    .asUint8List(data.offsetInBytes, data.lengthInBytes);
 
                 print(data);
                 var directory = await FilePicker.platform.getDirectoryPath();
@@ -74,7 +76,8 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
               },
             ),
             space(h: 20),
-            NewGridBase(columns: NewGridBase.getColumns(columns), rows: getRows(lista))
+            NewGridBase(
+                columns: NewGridBase.getColumns(columns), rows: getRows(lista))
           ],
         ),
       )),
@@ -85,8 +88,8 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
     List<DataRow> rows = [];
     for (var element in data) {
       rows.add(DataRow(cells: [
-        DataCell(Text(element.Codigo)),
-        DataCell(Text(element.Descripcion)),
+        DataCell(Text(element.codigo)),
+        DataCell(Text(element.descripcion)),
         const DataCell(Text(
           "Correcto",
           style: TextStyle(color: Colors.green),
@@ -153,8 +156,13 @@ class _CargarProductoPageState extends State<CargarProductoPage> {
                     datos.add(excel.tables[table]!.rows[i][e]!.value);
                   }
 
-                  listaTemp.add(ProductosModel(0, datos[0].toString(), datos[1].toString(),
-                      datos[2].toString(), datos[3].toString(), 0));
+                  listaTemp.add(ProductosModel(
+                      idProducto: 0,
+                      codigo: datos[0].toString(),
+                      descripcion: datos[1].toString(),
+                      longitud: datos[2].toString(),
+                      almacen: datos[3].toString(),
+                      stock: 0));
 
                   setState(() {
                     actualcant++;

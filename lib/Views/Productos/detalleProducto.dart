@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/baseVentana.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
-import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Views/Widgets/textFormField.dart';
-import 'package:inventarioapp/ViewModels/productosController.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
+import 'package:inventarioapp/Util/colors.dart';
+import 'package:inventarioapp/ViewModels/productosController.dart';
+import 'package:inventarioapp/Views/Widgets/textFormField.dart';
 
 class DetalleProducto extends StatefulWidget {
   const DetalleProducto({super.key});
@@ -59,10 +59,10 @@ class _DetalleProductoState extends State<DetalleProducto> {
             setDetalleProducto(element);
           },
         )),
-        DataCell(Text(element.Codigo)),
-        DataCell(Text(element.Descripcion)),
-        DataCell(Text(element.Longitud)),
-        DataCell(Text(element.Almacen)),
+        DataCell(Text(element.codigo)),
+        DataCell(Text(element.descripcion)),
+        DataCell(Text(element.longitud)),
+        DataCell(Text(element.almacen)),
       ]));
       count++;
     }
@@ -71,10 +71,10 @@ class _DetalleProductoState extends State<DetalleProducto> {
 
   setDetalleProducto(ProductosModel model) {
     productoSelecionado = model;
-    codigo.text = model.Codigo.toString();
-    descripcion.text = model.Descripcion;
-    longitud.text = model.Longitud;
-    almacen.text = model.Almacen;
+    codigo.text = model.codigo;
+    descripcion.text = model.descripcion;
+    longitud.text = model.longitud;
+    almacen.text = model.almacen;
   }
 
   LeftColumn() {
@@ -126,13 +126,13 @@ class _DetalleProductoState extends State<DetalleProducto> {
             texto: "Guardar",
             w: 280,
             fun: () async {
-              if (productoSelecionado.IdProducto < 1) {
+              if (productoSelecionado.idProducto < 1) {
                 return;
               }
 
-              productoSelecionado.Descripcion = descripcion.text;
-              productoSelecionado.Longitud = longitud.text;
-              productoSelecionado.Almacen = almacen.text;
+              productoSelecionado.descripcion = descripcion.text;
+              productoSelecionado.longitud = longitud.text;
+              productoSelecionado.almacen = almacen.text;
 
               ProductosController.putProducto(productoSelecionado);
 
@@ -151,7 +151,7 @@ class _DetalleProductoState extends State<DetalleProducto> {
               longitud.text = "";
               almacen.text = "";
 
-              productoSelecionado.IdProducto = 0;
+              productoSelecionado.idProducto = 0;
             },
           ),
           space(h: 10),
@@ -160,10 +160,11 @@ class _DetalleProductoState extends State<DetalleProducto> {
             texto: "Borrar",
             w: 280,
             fun: () {
-              if (productoSelecionado.IdProducto < 1) {
+              if (productoSelecionado.idProducto < 1) {
                 return;
               }
-              ProductosController.deleteProducto(productoSelecionado.IdProducto);
+              ProductosController.deleteProducto(
+                  productoSelecionado.idProducto);
 
               showDialog(
                 context: context,
@@ -180,7 +181,7 @@ class _DetalleProductoState extends State<DetalleProducto> {
               longitud.text = "";
               almacen.text = "";
 
-              productoSelecionado.IdProducto = 0;
+              productoSelecionado.idProducto = 0;
             },
           ),
           space(h: 10),
@@ -194,7 +195,7 @@ class _DetalleProductoState extends State<DetalleProducto> {
               longitud.text = "";
               almacen.text = "";
 
-              productoSelecionado.IdProducto = 0;
+              productoSelecionado.idProducto = 0;
             },
           )
         ],

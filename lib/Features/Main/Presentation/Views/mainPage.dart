@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/common.dart';
+import 'package:inventarioapp/Features/Home/Presentation/Views/home_view.dart';
 import 'package:inventarioapp/Features/Main/Presentation/Widgets/main_modules.dart';
 import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Views/Clients/clientsView.dart';
 import 'package:inventarioapp/Views/Entradas/buscarEntrada.dart';
 import 'package:inventarioapp/Views/Entradas/listarEntrada.dart';
 import 'package:inventarioapp/Views/Entradas/registrarEntrada.dart';
-import 'package:inventarioapp/Views/Home/homePage.dart';
 import 'package:inventarioapp/Views/Inventory/inventoryView.dart';
 import 'package:inventarioapp/Views/Productos/cargarProducto.dart';
 import 'package:inventarioapp/Views/Productos/detalleProducto.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
-import 'package:inventarioapp/ViewModels/productosController.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
+import 'package:inventarioapp/ViewModels/productosController.dart';
 
 class SearchProucto {
   Function(ProductosModel model) setDetalleProveedor;
@@ -23,10 +23,10 @@ class SearchProucto {
             setDetalleProveedor(element);
           },
         )),
-        DataCell(Text(element.Codigo)),
-        DataCell(Text(element.Descripcion)),
-        DataCell(Text(element.Longitud)),
-        DataCell(Text(element.Almacen)),
+        DataCell(Text(element.codigo)),
+        DataCell(Text(element.descripcion)),
+        DataCell(Text(element.longitud)),
+        DataCell(Text(element.almacen)),
       ]));
       count++;
     }
@@ -34,8 +34,8 @@ class SearchProucto {
   }
 
   Future<void> searchProveedor() async {
-    dataProveedor =
-        await ProductosController.getProductos().whenComplete(() => Navigator.pop(context));
+    dataProveedor = await ProductosController.getProductos()
+        .whenComplete(() => Navigator.pop(context));
 
     // ignore: use_build_context_synchronously
     showDialog(

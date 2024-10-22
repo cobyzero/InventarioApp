@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/ViewModels/entradasController.dart';
-import 'package:inventarioapp/ViewModels/productosController.dart';
-import 'package:inventarioapp/ViewModels/salidasController.dart';
 import 'package:inventarioapp/Models/entradasModel.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
 import 'package:inventarioapp/Models/salidasModel.dart';
+import 'package:inventarioapp/ViewModels/entradasController.dart';
+import 'package:inventarioapp/ViewModels/productosController.dart';
+import 'package:inventarioapp/ViewModels/salidasController.dart';
 
 class InventoryView extends StatefulWidget {
   const InventoryView({super.key});
@@ -33,7 +33,8 @@ class _InventoryViewState extends State<InventoryView> {
       width: double.infinity,
       padding: const EdgeInsets.all(30),
       margin: const EdgeInsets.all(10),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(
+          color: Colors.white, borderRadius: BorderRadius.circular(20)),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,8 +51,8 @@ class _InventoryViewState extends State<InventoryView> {
                       setState(() {
                         data.clear();
                       });
-                      List<InventarioModel> dataTemp =
-                          await getData().whenComplete(() => Navigator.pop(context));
+                      List<InventarioModel> dataTemp = await getData()
+                          .whenComplete(() => Navigator.pop(context));
                       setState(() {
                         data = dataTemp;
                       });
@@ -62,7 +63,8 @@ class _InventoryViewState extends State<InventoryView> {
             space(h: 20),
             lineaContainer(),
             space(h: 20),
-            NewGridBase(columns: NewGridBase.getColumns(columns), rows: getRows(data)),
+            NewGridBase(
+                columns: NewGridBase.getColumns(columns), rows: getRows(data)),
             space(h: 20),
             BotonBase(icon: Icons.download, texto: "Descargar Excel")
           ],
@@ -93,16 +95,22 @@ class _InventoryViewState extends State<InventoryView> {
     List<InventarioModel> inventario = [];
     for (var element in productos) {
       List<EntradasModel> entradasList =
-          await EntradasController.getEntradaForProducto(element.IdProducto);
+          await EntradasController.getEntradaForProducto(element.idProducto);
       int entradas = entradasList.length;
 
       List<SalidasModel> salidasList =
-          await SalidasController.getSalidaForProducto(element.IdProducto);
+          await SalidasController.getSalidaForProducto(element.idProducto);
       int salidas = salidasList.length;
 
       if (entradas > 0 || salidas > 0) {
-        inventario.add(InventarioModel(element.Codigo, element.Descripcion, element.Longitud,
-            element.Almacen, entradas, salidas, element.Stock));
+        inventario.add(InventarioModel(
+            element.codigo,
+            element.descripcion,
+            element.longitud,
+            element.almacen,
+            entradas,
+            salidas,
+            element.stock));
       }
     }
 
@@ -119,6 +127,6 @@ class InventarioModel {
   int salidas;
   int stock;
 
-  InventarioModel(this.coditoProducto, this.descripcion, this.longitud, this.almacen, this.entradas,
-      this.salidas, this.stock);
+  InventarioModel(this.coditoProducto, this.descripcion, this.longitud,
+      this.almacen, this.entradas, this.salidas, this.stock);
 }

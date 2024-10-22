@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/Search/SearchProveedor.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
-import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Views/Widgets/textFormField.dart';
-import 'package:inventarioapp/ViewModels/entradasController.dart';
-import 'package:inventarioapp/ViewModels/productosController.dart';
 import 'package:inventarioapp/Models/entradasModel.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
 import 'package:inventarioapp/Models/proveedoresModel.dart';
+import 'package:inventarioapp/Util/colors.dart';
+import 'package:inventarioapp/ViewModels/entradasController.dart';
+import 'package:inventarioapp/ViewModels/productosController.dart';
+import 'package:inventarioapp/Views/Widgets/textFormField.dart';
 
 class RegistrarEntradaPage extends StatefulWidget {
   const RegistrarEntradaPage({super.key});
@@ -30,7 +30,14 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
 
   ///Requerimientos para el DataTable [Entradas]
   late EntradasModel entradaSelecionado;
-  var columns = ["", "Codigo", "Descripcion", "Cantidad", "Longitud", "Almacen"];
+  var columns = [
+    "",
+    "Codigo",
+    "Descripcion",
+    "Cantidad",
+    "Longitud",
+    "Almacen"
+  ];
   List<EntradasModel> data = [];
 
   ///Requerimientos para el DataTable [Proveedores]
@@ -54,7 +61,8 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
         width: double.infinity,
         padding: const EdgeInsets.all(30),
         margin: const EdgeInsets.all(10),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(20)),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,7 +96,8 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
                     w: 180,
                     fun: () {
                       if (data.isEmpty) {
-                        alertMensaje(context, "Debes ingresar minimo 1 entrada");
+                        alertMensaje(
+                            context, "Debes ingresar minimo 1 entrada");
                         return;
                       }
 
@@ -103,7 +112,7 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
                         data.clear();
                         codigoProducto.text = "";
                         descripcionProducto.text = "";
-                        productoSelecionado.IdProducto = 0;
+                        productoSelecionado.idProducto = 0;
                         numDocumento.text = "";
                         total = 0;
                       });
@@ -129,10 +138,10 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
             setDetalleProducto(element);
           },
         )),
-        DataCell(Text(element.Codigo)),
-        DataCell(Text(element.Descripcion)),
-        DataCell(Text(element.Longitud)),
-        DataCell(Text(element.Almacen)),
+        DataCell(Text(element.codigo)),
+        DataCell(Text(element.descripcion)),
+        DataCell(Text(element.longitud)),
+        DataCell(Text(element.almacen)),
       ]));
       count++;
     }
@@ -141,8 +150,8 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
 
   setDetalleProducto(ProductosModel model) {
     productoSelecionado = model;
-    codigoProducto.text = model.Codigo;
-    descripcionProducto.text = model.Descripcion;
+    codigoProducto.text = model.codigo;
+    descripcionProducto.text = model.descripcion;
     Navigator.pop(context);
   }
 
@@ -196,13 +205,16 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
           ),
           space(w: 30),
           MyTextFormField(
-              controller: descripcionProducto, text: "Descripcion Producto", readOnliny: true),
+              controller: descripcionProducto,
+              text: "Descripcion Producto",
+              readOnliny: true),
           space(w: 20),
           IconButton(
               onPressed: () async {
                 cargando(context);
-                List<ProductosModel> dataProveedorTemp = await ProductosController.getProductos()
-                    .whenComplete(() => Navigator.pop(context));
+                List<ProductosModel> dataProveedorTemp =
+                    await ProductosController.getProductos()
+                        .whenComplete(() => Navigator.pop(context));
                 setState(() {
                   dataProducto = dataProveedorTemp;
                 });
@@ -260,7 +272,8 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
 
                 for (var element in data) {
                   if (element.codigoProducto == codigoProducto.text) {
-                    alertMensaje(context, "Solo puedes agregar un tipo de producto.");
+                    alertMensaje(
+                        context, "Solo puedes agregar un tipo de producto.");
                     return;
                   }
                 }
@@ -275,11 +288,11 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
                       docProveedor.text,
                       nombreProveedor.text,
                       int.parse(cantidad.text),
-                      productoSelecionado.IdProducto,
+                      productoSelecionado.idProducto,
                       codigoProducto.text,
                       descripcionProducto.text,
-                      productoSelecionado.Longitud,
-                      productoSelecionado.Almacen));
+                      productoSelecionado.longitud,
+                      productoSelecionado.almacen));
                 });
               },
               icon: const Icon(
@@ -313,7 +326,8 @@ class _RegistrarEntradaPageState extends State<RegistrarEntradaPage> {
               onPressed: () async {
                 cargando(context);
                 // ignore: use_build_context_synchronously
-                await SearchProveedor(setDetalleProveedor, context).searchProveedor();
+                await SearchProveedor(setDetalleProveedor, context)
+                    .searchProveedor();
               },
               icon: const Icon(
                 Icons.search,

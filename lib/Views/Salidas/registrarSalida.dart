@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/Grids/NewGridBase.dart';
 import 'package:inventarioapp/Common/Search/SearchProducto.dart';
 import 'package:inventarioapp/Common/botonBase.dart';
-import 'package:inventarioapp/UserData/UserData.dart';
-import 'package:inventarioapp/Util/colors.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Views/Widgets/textFormField.dart';
-import 'package:inventarioapp/ViewModels/salidasController.dart';
 import 'package:inventarioapp/Models/productosModel.dart';
 import 'package:inventarioapp/Models/salidasModel.dart';
+import 'package:inventarioapp/UserData/UserData.dart';
+import 'package:inventarioapp/Util/colors.dart';
+import 'package:inventarioapp/ViewModels/salidasController.dart';
+import 'package:inventarioapp/Views/Widgets/textFormField.dart';
 
 class RegistrarSalidaPage extends StatefulWidget {
   const RegistrarSalidaPage({super.key});
@@ -50,7 +50,8 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
         width: double.infinity,
         padding: const EdgeInsets.all(30),
         margin: const EdgeInsets.all(10),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20)),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(20)),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +69,9 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
               lineaContainer(),
               space(h: 20),
               //Expanded(child: Text("dasd"))
-              NewGridBase(columns: NewGridBase.getColumns(columns), rows: getRows(data)),
+              NewGridBase(
+                  columns: NewGridBase.getColumns(columns),
+                  rows: getRows(data)),
               space(h: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -85,7 +88,7 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
                         data.clear();
                         codigoProducto.text = "";
                         descripcionProducto.text = "";
-                        productoSelecionado.IdProducto = 0;
+                        productoSelecionado.idProducto = 0;
                         total = 0;
 
                         numDocumento.text = "AutoGenerado";
@@ -152,7 +155,8 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
           IconButton(
               onPressed: () async {
                 cargando(context);
-                await SearchProucto(setDetalleProducto, context).searchProveedor();
+                await SearchProucto(setDetalleProducto, context)
+                    .searchProveedor();
               },
               icon: const Icon(
                 Icons.search,
@@ -177,7 +181,7 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
               onPressed: () {
                 int _cantidad = 0;
                 for (var element in data) {
-                  if (element.codigoProducto == productoSelecionado.Codigo) {
+                  if (element.codigoProducto == productoSelecionado.codigo) {
                     alertMensaje(context, "Solo puede 1 vez por producto.");
                     return;
                   }
@@ -189,7 +193,8 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
                   return;
                 }
                 if (int.parse(stock.text) < _cantidad) {
-                  alertMensaje(context, "El stock no puede ser menor a la cantidad.");
+                  alertMensaje(
+                      context, "El stock no puede ser menor a la cantidad.");
                   return;
                 }
                 setState(() {
@@ -212,14 +217,14 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
                       documentoCliente: numeroDocumentoUsuario.text,
                       nombreCliente: nombreUsuario.text,
                       cantidadProductos: _cantidad,
-                      idProducto: productoSelecionado.IdProducto,
+                      idProducto: productoSelecionado.idProducto,
                       codigoProducto: codigoProducto.text,
                       descripcionProducto: descripcionProducto.text,
-                      longitudProducto: productoSelecionado.Longitud,
-                      almacenProducto: productoSelecionado.Almacen));
+                      longitudProducto: productoSelecionado.longitud,
+                      almacenProducto: productoSelecionado.almacen));
                 });
 
-                productoSelecionado.IdProducto = 0;
+                productoSelecionado.idProducto = 0;
                 codigoProducto.text = "";
                 descripcionProducto.text = "";
                 stock.text = "";
@@ -257,9 +262,9 @@ class _RegistrarSalidaPageState extends State<RegistrarSalidaPage> {
 
   setDetalleProducto(ProductosModel model) {
     productoSelecionado = model;
-    codigoProducto.text = model.Codigo;
-    descripcionProducto.text = model.Descripcion;
-    stock.text = model.Stock.toString();
+    codigoProducto.text = model.codigo;
+    descripcionProducto.text = model.descripcion;
+    stock.text = model.stock.toString();
     Navigator.pop(context);
   }
 

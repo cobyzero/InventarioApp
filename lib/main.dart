@@ -5,6 +5,8 @@ import 'package:inventarioapp/Core/Dependencies/injector.dart';
 import 'package:inventarioapp/Core/Router/routes.dart';
 import 'package:inventarioapp/Features/Auth/Application/Repositories/auth_irepository.dart';
 import 'package:inventarioapp/Features/Auth/Application/bloc/auth_bloc.dart';
+import 'package:inventarioapp/Features/Main/Application/Repositories/main_irepository.dart';
+import 'package:inventarioapp/Features/Main/Application/bloc/main_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 Future<void> main() async {
@@ -23,6 +25,11 @@ class MyApp extends StatelessWidget {
           create: (context) => AuthBloc(
             getIt<AuthIRepository>(),
           ),
+        ),
+        BlocProvider(
+          create: (context) => MainBloc(
+            getIt<MainIRepository>(),
+          )..add(GetModulesEvent()),
         ),
       ],
       child: ResponsiveSizer(

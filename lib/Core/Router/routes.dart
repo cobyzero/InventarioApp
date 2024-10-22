@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:inventarioapp/Features/Auth/Presentation/Views/loginView.dart';
-import 'package:inventarioapp/Views/Main/mainPage.dart';
+import 'package:inventarioapp/Features/Main/Presentation/Views/mainPage.dart';
 
 final routesApp = GoRouter(
   initialLocation: "/login",

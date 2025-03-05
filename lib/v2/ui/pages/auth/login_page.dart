@@ -3,6 +3,8 @@ import 'package:inventarioapp/Common/common.dart';
 import 'package:inventarioapp/Views/Widgets/textFormField.dart';
 import 'package:inventarioapp/v2/domain/blocs/auth_bloc/auth_bloc.dart';
 import 'package:inventarioapp/v2/ui/pages/auth/widgets/loginContainerRight.dart';
+import 'package:inventarioapp/v2/ui/utils/loading.dart';
+import 'package:inventarioapp/v2/ui/utils/toast.dart';
 import 'package:inventarioapp/v2/ui/utils/utils.dart';
 
 class LoginView extends StatefulWidget {
@@ -22,13 +24,18 @@ class _LoginViewState extends State<LoginView> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthResult) {
+            LoadingOverlay.hide();
             context.go('/home');
+          }
+          if (state is AuthError) {
+            LoadingOverlay.hide();
+            context.show(state.error);
+          }
+          if (state is AuthLoading) {
+            LoadingOverlay.show(context);
           }
         },
         builder: (context, state) {
-          if (state is AuthLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
           return Row(
             children: [
               Expanded(

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/cardBase.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Core/Dependencies/injector.dart';
-import 'package:inventarioapp/Core/Utils/utils.dart';
 import 'package:inventarioapp/Features/Home/Application/Repositories/home_irepository.dart';
 import 'package:inventarioapp/Features/Home/Application/bloc/home_bloc.dart';
 import 'package:inventarioapp/Features/Home/Presentation/Widgets/homeGraficoData.dart';
 import 'package:inventarioapp/Features/Home/Presentation/Widgets/homeStockLimit.dart';
 import 'package:inventarioapp/Util/colors.dart';
+import 'package:inventarioapp/v2/dependency_injection/injector.dart';
+import 'package:inventarioapp/v2/ui/utils/utils.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

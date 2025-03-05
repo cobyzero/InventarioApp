@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:inventarioapp/Core/Utils/palette.dart';
+import 'package:inventarioapp/v2/ui/utils/palette.dart';
 import 'package:sizer/sizer.dart';
 
 class Texts extends StatelessWidget {

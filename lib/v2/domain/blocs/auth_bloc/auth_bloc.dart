@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:inventarioapp/Features/Auth/Domain/Repositories/auth_repository.dart';
+import 'package:inventarioapp/v2/domain/repositories/auth_repository.dart';
 import 'package:meta/meta.dart';
 
 part 'auth_event.dart';

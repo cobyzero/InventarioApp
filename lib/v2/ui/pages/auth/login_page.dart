@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Core/Utils/utils.dart';
-import 'package:inventarioapp/Features/Auth/Application/bloc/auth_bloc.dart';
-import 'package:inventarioapp/Features/Auth/Presentation/Widgets/loginContainerRight.dart';
 import 'package:inventarioapp/Views/Widgets/textFormField.dart';
+import 'package:inventarioapp/v2/domain/blocs/auth_bloc/auth_bloc.dart';
+import 'package:inventarioapp/v2/ui/pages/auth/widgets/loginContainerRight.dart';
+import 'package:inventarioapp/v2/ui/utils/utils.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});

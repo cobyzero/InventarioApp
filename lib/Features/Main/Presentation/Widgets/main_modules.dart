@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inventarioapp/Common/botonMenu.dart';
 import 'package:inventarioapp/Common/common.dart';
-import 'package:inventarioapp/Core/Utils/utils.dart';
 import 'package:inventarioapp/Features/Main/Application/bloc/main_bloc.dart';
+import 'package:inventarioapp/v2/ui/utils/utils.dart';
 
 class MainModules extends StatelessWidget {
   final PageController controller;

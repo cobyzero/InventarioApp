@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inventarioapp/Providers/providerMain.dart';
+import 'package:inventarioapp/v1/Providers/providerMain.dart';
 import 'package:inventarioapp/routes.dart';
 import 'package:provider/provider.dart';
 

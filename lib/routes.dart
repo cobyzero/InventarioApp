@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:inventarioapp/Views/Login/loginView.dart';
-import 'package:inventarioapp/Views/Main/mainPage.dart';
+import 'package:inventarioapp/v1/Views/Login/loginView.dart';
+import 'package:inventarioapp/v1/Views/Main/mainPage.dart';
 
 Map<String, WidgetBuilder> routesApp() {
   return {
